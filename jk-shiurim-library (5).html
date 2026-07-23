@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JK Shiurim Library</title>
+<link rel="icon" href="data:image/png;base64,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">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#F1EBDD;
+    --card:#FBF8F1;
+    --ink:#15120D;
+    --wine:#7A2E2E;
+    --brass:#CFA05A;
+    --brass-soft:#E4C280;
+    --brass-dim: rgba(207,160,90,0.16);
+    --line: rgba(21,18,13,0.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--parchment);
+    background-image: radial-gradient(rgba(21,18,13,0.035) 1px, transparent 1px);
+    background-size: 22px 22px;
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  ::selection{background:var(--brass-dim);}
+  a{color:inherit;}
+
+  .topbar{
+    position:sticky; top:0; z-index:40;
+    background:rgba(241,235,221,0.86); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{max-width:1080px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .topbar img{height:30px;}
+  .topbar-search{
+    display:flex; align-items:center; gap:8px; background:var(--card); border:1px solid var(--line);
+    border-radius:20px; padding:8px 14px; width:min(340px, 46vw);
+  }
+  .topbar-search input{border:none; background:none; outline:none; font-family:'Source Serif 4', serif; font-size:14px; width:100%; color:var(--ink);}
+  .topbar-search svg{flex-shrink:0; opacity:.5;}
+
+  header{padding:40px 0 8px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--wine); margin:0 0 10px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600; font-size:clamp(30px,4.6vw,46px);
+    line-height:1.04; margin:0 0 10px; letter-spacing:-0.01em;
+  }
+  header p.sub{
+    max-width:620px; color:rgba(21,18,13,0.68); font-size:16px; line-height:1.5; margin:0;
+  }
+
+  /* TODAY carousel */
+  .today-wrap{margin-top:30px;}
+  .today-topline{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+  .today-topline h2{
+    font-family:'Fraunces', serif; font-weight:600; font-size:19px; margin:0;
+    display:flex; align-items:center; gap:8px;
+  }
+  .today-topline h2::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--wine); display:inline-block;}
+  .day-nav{display:flex; gap:6px;}
+  .day-btn{
+    width:32px; height:32px; border-radius:50%; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); cursor:pointer; font-size:15px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .day-btn:hover{border-color:var(--brass); color:var(--wine);}
+
+  .carousel{
+    display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:4px 4px 14px; margin:0 -4px;
+    -webkit-overflow-scrolling:touch; scrollbar-width:thin;
+  }
+  .carousel::-webkit-scrollbar{height:6px;}
+  .carousel::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px;}
+  .day-card{
+    scroll-snap-align:start; flex:0 0 auto; width:min(300px, 78vw);
+    background:var(--ink); color:var(--parchment); border-radius:12px; padding:18px;
+    position:relative; overflow:hidden;
+  }
+  .day-card.is-today{background:linear-gradient(155deg, var(--ink) 55%, #2b2013 100%); box-shadow:0 10px 30px rgba(21,18,13,0.25);}
+  .day-card::before{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(240px 120px at 100% -10%, rgba(207,160,90,0.3), transparent 65%);
+    pointer-events:none;
+  }
+  .day-card .dlabel{font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--brass); position:relative;}
+  .day-card .ddate{font-family:'Fraunces', serif; font-weight:600; font-size:17px; margin-top:3px; position:relative;}
+  .day-card .dcount{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(241,235,221,0.5); margin-top:2px; position:relative;}
+  .day-card .ditems{margin-top:12px; position:relative;}
+  .day-item{
+    display:flex; align-items:center; gap:10px; padding:8px 0;
+    border-top:1px solid rgba(241,235,221,0.12);
+  }
+  .day-item:first-child{border-top:none;}
+  .day-item a{text-decoration:none; display:flex; align-items:center; gap:10px; width:100%;}
+  .day-item .dt-title{font-family:'Source Serif 4', serif; font-size:13.5px; line-height:1.25; color:var(--parchment);}
+  .day-item .dt-sub{font-family:'IBM Plex Mono', monospace; font-size:9.5px; color:rgba(241,235,221,0.5); margin-top:1px;}
+  .day-item .go-dot{margin-left:auto; flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--brass); color:var(--ink); display:flex; align-items:center; justify-content:center; font-size:10px;}
+  .day-empty{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:rgba(241,235,221,0.5); padding:10px 0; position:relative;}
+
+  .avatar{
+    width:30px; height:30px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600;
+    background:rgba(207,160,90,0.2); color:var(--brass-soft); border:1px solid rgba(207,160,90,0.35);
+    object-fit:cover;
+  }
+  .card .avatar, .rabbi-card .avatar{background:var(--brass-dim); color:var(--wine); border-color:rgba(122,46,46,0.2);}
+
+  .finder{margin-top:34px;}
+  .finder-label{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    color:rgba(21,18,13,0.5); margin-bottom:10px;
+  }
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink);
+    padding:7px 12px; border-radius:20px; cursor:pointer; letter-spacing:.02em;
+  }
+  .chip.active{background:var(--ink); color:var(--parchment); border-color:var(--ink);}
+  .chip:hover{border-color:var(--brass);}
+
+  section{padding:40px 0;}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:12px;}
+  .section-head h2{font-family:'Fraunces', serif; font-weight:600; font-size:23px; margin:0;}
+  .section-head p.tag{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:rgba(21,18,13,0.5); margin:4px 0 0;}
+
+  .suggest-wrap{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-top:30px;}
+  .suggest-card{
+    border:1px solid var(--line); background:var(--card); border-radius:12px; padding:16px 18px;
+    cursor:pointer; transition:box-shadow .15s ease, border-color .15s ease;
+  }
+  .suggest-card:hover{box-shadow:0 8px 20px rgba(21,18,13,0.08); border-color:var(--brass);}
+  .suggest-card .stag{font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--wine);}
+  .suggest-card .stitle{font-family:'Fraunces', serif; font-weight:600; font-size:16px; margin-top:5px;}
+  .suggest-line{font-family:'Source Serif 4', serif; font-size:13.5px; padding:6px 0; border-top:1px dashed var(--line); display:flex; justify-content:space-between; gap:10px;}
+  .suggest-line:first-of-type{border-top:none; margin-top:10px;}
+  .suggest-line .sdate{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(21,18,13,0.42); white-space:nowrap;}
+  .suggest-more{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--brass); margin-top:8px;}
+  .count{font-family:'IBM Plex Mono', monospace; font-size:12px; color:rgba(21,18,13,0.5);}
+
+  /* Rabbi grid */
+  .rabbis{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px;}
+  .rabbi-card{
+    border:1px solid var(--line); background:var(--card); padding:16px;
+    cursor:pointer; border-radius:12px; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    display:flex; align-items:center; gap:12px;
+  }
+  .rabbi-card:hover{transform:translateY(-3px); box-shadow:0 10px 24px rgba(21,18,13,0.09); border-color:var(--brass);}
+  .rabbi-card .avatar{width:44px; height:44px; font-size:14px;}
+  .rabbi-card .name{font-family:'Fraunces', serif; font-weight:500; font-size:16px; line-height:1.2;}
+  .rabbi-card .meta{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(21,18,13,0.42); margin-top:5px; display:flex; align-items:center; gap:5px;}
+  .rabbi-card .meta .live-dot{width:6px;height:6px;border-radius:50%; background:#4a7a4a; display:inline-block;}
+  .rabbi-card.locked{opacity:.45; cursor:default;}
+  .rabbi-card.locked:hover{transform:none; box-shadow:none; border-color:var(--line);}
+
+  /* Topic drawers */
+  .drawers{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;}
+  .drawer{
+    border:1px solid var(--line); background:var(--card); padding:16px;
+    cursor:pointer; border-radius:12px; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  .drawer:hover{transform:translateY(-3px); box-shadow:0 10px 24px rgba(21,18,13,0.09); border-color:var(--brass);}
+  .drawer .num{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--wine); letter-spacing:.06em;}
+  .drawer .name{font-family:'Fraunces', serif; font-weight:500; font-size:17px; margin-top:6px; line-height:1.2;}
+  .drawer .meta{font-family:'IBM Plex Mono', monospace; font-size:11px; color:rgba(21,18,13,0.42); margin-top:8px; display:flex; align-items:center; gap:5px;}
+  .drawer .meta .live-dot{width:6px;height:6px;border-radius:50%; background:#4a7a4a; display:inline-block;}
+  .drawer.locked{opacity:.48; cursor:default;}
+  .drawer.locked:hover{transform:none; box-shadow:none; border-color:var(--line);}
+
+  .cards{display:flex; flex-direction:column; gap:8px;}
+  .card{
+    background:var(--card); padding:14px 16px; display:grid;
+    grid-template-columns:30px 78px 1fr auto; gap:14px; align-items:center;
+    border:1px solid var(--line); border-radius:12px; text-decoration:none; color:var(--ink);
+    transition:box-shadow .15s ease, border-color .15s ease;
+  }
+  .card:hover{box-shadow:0 8px 20px rgba(21,18,13,0.07); border-color:var(--brass);}
+  .card .stamp{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--wine);
+    background:rgba(122,46,46,0.07); border-radius:6px; padding:5px 6px; text-align:center;
+    letter-spacing:.02em; line-height:1.3;
+  }
+  .card .title{font-family:'Source Serif 4', serif; font-size:16px; font-weight:500;}
+  .card .path{font-family:'IBM Plex Mono', monospace; font-size:11px; color:rgba(21,18,13,0.42); margin-top:4px;}
+  .card .go{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--brass); white-space:nowrap;}
+  .empty{padding:32px 18px; font-family:'IBM Plex Mono', monospace; font-size:13px; color:rgba(21,18,13,0.5); background:var(--card); border:1px dashed var(--line); border-radius:12px;}
+
+  footer{border-top:1px solid var(--line); padding:30px 0 50px; font-size:12.5px; color:rgba(21,18,13,0.5); line-height:1.6;}
+  footer a{color:var(--wine);}
+
+  #back-btn{display:none; margin-bottom:16px; background:none; border:none; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--wine); cursor:pointer; padding:0;}
+
+  @media (max-width:560px){
+    .card{grid-template-columns:26px 1fr auto; }
+    .card .stamp{display:none;}
+    .topbar-search{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <img src="data:image/png;base64,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" alt="JK logo">
+    <div class="topbar-search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search" type="text" placeholder="Search shiurim…" autocomplete="off">
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">JK Shiurim Library</p>
+    <h1>Find the shiur you're looking for.</h1>
+    <p class="sub">Browse by rabbi or by topic, search by date or subject. Every shiur links straight to the real file on Drive.</p>
+
+    <div class="today-wrap">
+      <div class="today-topline">
+        <h2>Given over recently</h2>
+        <div class="day-nav">
+          <button class="day-btn" id="carousel-prev" title="Scroll back">&larr;</button>
+          <button class="day-btn" id="carousel-next" title="Scroll forward">&rarr;</button>
+        </div>
+      </div>
+      <div class="carousel" id="carousel"></div>
+    </div>
+
+    <div class="suggest-wrap" id="suggest-wrap"></div>
+
+    <div class="finder">
+      <div class="finder-label">Quick filters</div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-head">
+      <div>
+        <h2>Browse by rabbi</h2>
+        <p class="tag">Roshei Chaburah &amp; the Main Shiurim Library</p>
+      </div>
+      <span class="count" id="rabbi-count"></span>
+    </div>
+    <div class="rabbis" id="rabbis"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div>
+        <h2>Browse by topic</h2>
+        <p class="tag">Main Shiurim Library — Rebbe, R' Yitzchok Berkovits</p>
+      </div>
+      <span class="count" id="topic-count"></span>
+    </div>
+    <div class="drawers" id="drawers"></div>
+  </section>
+
+  <section id="results-section">
+    <div class="section-head">
+      <h2 id="results-title">All indexed shiurim</h2>
+      <span class="count" id="results-count"></span>
+    </div>
+    <button id="back-btn">&larr; back</button>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <footer>
+    <p>Data pulled from Google Drive · <a href="https://drive.google.com/drive/folders/1Ak11ASHdS-5Whzt7Rl7mVpzMOPOtOb9a" target="_blank">source folder</a>. Every shiur opens the real file on Drive — visitors need their existing Drive access to play it. The library is indexed in stages; more rabbis and topics are added as they're pulled in.</p>
+  </footer>
+</div>
+
+<script>
+const REBBE = "R' Yitzchok Berkovits";
+const SPEAKER_PHOTOS = {
+  // "R' Yitzchok Berkovits": "https://.../photo.jpg",
+};
+
+const STATIC_FALLBACK = [
+  {title:"Taaruvos 1", date:"2023-11-07", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/18IpXOvwnrukLYXUaKkUOSlSYukcXJYS_/view?usp=drivesdk"},
+  {title:"Taaruvos 2", date:"2023-11-08", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1EUcqV4B2KB8ogB-z4U_wDkBFnImilfA4/view?usp=drivesdk"},
+  {title:"Taaruvos 3a", date:"2023-11-09", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1y5xjt0XerW1WLEvQcn_vxIY0htjFeEyN/view?usp=drivesdk"},
+  {title:"Taaruvos 3b", date:"2023-11-09", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1QctlL6rp8AsMohYg8OVe-Hr4yraTZhGT/view?usp=drivesdk"},
+  {title:"Taaruvos 4", date:"2023-11-12", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1juLpShJdI5cy64oetfIvwbH2yuCvfpO7/view?usp=drivesdk"},
+  {title:"Taaruvos 5", date:"2023-11-13", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/10DNkJPU73mxcU9gfI0upgAThivjuIbh2/view?usp=drivesdk"},
+  {title:"Taaruvos 6", date:"2023-11-14", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/17FVBbG5YPTf_bEdX0UNgf0xv4shAwcaQ/view?usp=drivesdk"},
+  {title:"Taaruvos 7", date:"2023-11-15", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1JZELs8dVa2QvDltQLtbaBkuMjsZflQF6/view?usp=drivesdk"},
+  {title:"Taaruvos 8", date:"2023-11-19", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1iZjHypiVwPi0RrzExoZ1LdNPIu5hAUiI/view?usp=drivesdk"},
+  {title:"Taaruvos 9", date:"2023-11-20", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1mfEgcxrmkHqZLHbxdvt2jHr-lbzx0D7k/view?usp=drivesdk"},
+  {title:"Taaruvos 10 & Chazara of Taaroves Issur", date:"2023-11-21", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1-tepc6Zvmjnx34j8Psx_DaZvzVRLljZI/view?usp=drivesdk"},
+  {title:"Taaruvos - Tying up loose ends", date:"2023-11-22", topic:"Issur V'Heter", subtopic:"Taaruvos", url:"https://drive.google.com/file/d/1Id9DgIfSc7sNDwW3foItZg5FmFPKl6Lv/view?usp=drivesdk"},
+  {title:"Bittul Issur 1", date:"2023-11-23", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/19VT-ufv_PrG6VivXjqC4Gf4SwZEa1ruM/view?usp=drivesdk"},
+  {title:"Bittul Issur 2", date:"2023-11-26", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1k_M9l0u0oCeBknltKK--pNE4CUkSE4pw/view?usp=drivesdk"},
+  {title:"Bittul Issur 3", date:"2023-11-27", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/16Wn1xJ01nqL6Ox6Gp9oPSJf5P-QnJze-/view?usp=drivesdk"},
+  {title:"Bittul Issur 4", date:"2023-11-28", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1915lUUMs2Hw-SUeWe1XVlC0p68Qo6q7G/view?usp=drivesdk"},
+  {title:"Bittul Issur 5", date:"2023-11-29", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1MolN-6lSsgb9kT6qwiIC-iLqh9JWLTHo/view?usp=drivesdk"},
+  {title:"Bittul Issur 6", date:"2023-12-03", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1z_qxv8T0z5fZRlUhpqglQe-wFeZsI_hB/view?usp=drivesdk"},
+  {title:"Bittul Issur 7", date:"2023-12-04", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1dl0EX3ZJlSGVCKvDDkFCEaNcrlQK_xPx/view?usp=drivesdk"},
+  {title:"Bittul Issur 8", date:"2023-12-05", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1OtTvLp5ubErFtXc1_kL30QSNwado_CKV/view?usp=drivesdk"},
+  {title:"Bittul Issur 9", date:"2023-12-06", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1PFk5kcAMMIfMfHPJ1rcturNpCxxZ9MD6/view?usp=drivesdk"},
+  {title:"Bittul Issur 10", date:"2023-12-07", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1siPBTyd90DO74RlwFKQiwGjWz45jwa-H/view?usp=drivesdk"},
+  {title:"Bittul Issur 11", date:"2023-12-10", topic:"Issur V'Heter", subtopic:"Bitul Issur", url:"https://drive.google.com/file/d/1Y-eIXHmR3_Esgd5wOHR0g70zFDhb0Y5V/view?usp=drivesdk"},
+  {title:"Refuah 1", date:"2026-06-10", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/1OVdoTLX0WhRKcpS9KV6caP5pCrUDRSfH/view?usp=drivesdk"},
+  {title:"Refuah 2-6", date:"2026-06-16", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/1O1Dy5AFIZy6IrX476USFOcjz20tpUifN/view?usp=drivesdk"},
+  {title:"Refuah 7-14", date:"2026-06-28", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/1CKqavTZUplSomhRnjoLaL1cVD3dvjLvZ/view?usp=drivesdk"},
+  {title:"Refuah 10", date:"2026-07-05", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/1fxg1vO151qHIbg5iH07xcyY3ZZiwPKpF/view?usp=drivesdk"},
+  {title:"Shabbos Semicha Test 3 - Chazara Questions 1", date:"2026-07-06", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/17fwCM0CfoKlTUvUVQiV7gezNWl59BjIb/view?usp=drivesdk"},
+  {title:"Shabbos Semicha Test 3 - Chazara Questions 2", date:"2026-07-07", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/1js4UdGzbpngF0Ln6CwOgtIYEMfKPuNl-/view?usp=drivesdk"},
+  {title:"Shabbos Semicha Test 3 - Chazara Questions 3", date:"2026-07-09", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/1xWW3QmuQQ0KY6d7AwfhpnqIrMAyA0NB8/view?usp=drivesdk"},
+  {title:"Shabbos Semicha Test 3 - Chazara Questions 4", date:"2026-07-12", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/1pOnuxNb8hI1JfX2Of1MSULHt4SuBg6fN/view?usp=drivesdk"},
+  {title:"Shabbos Semicha Test 3 - Chazara Questions 5", date:"2026-07-14", topic:"Shabbos", subtopic:"Refuah", url:"https://drive.google.com/file/d/1lB-oQEYXjlFubCDVZ4Oy7GFInZsg-NZ_/view?usp=drivesdk"},
+  {title:"Niddah Semicha Test 2 - Chazara Questions 1", date:"2025-03-09", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1DkeOZX0oegrGOOtg1uWDubPL2iJXduNy/view?usp=drivesdk"},
+  {title:"Niddah Semicha Test 2 - Chazara Questions 2", date:"2025-03-10", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1m9u267jSxAiZJrHLNY5BpQ_-xUkQUx3V/view?usp=drivesdk"},
+  {title:"Niddah Semicha Test 2 - Chazara Questions 3", date:"2025-03-17", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/13eEpCrai71xmAuA_U1JDgvo04U_c9MD0/view?usp=drivesdk"},
+  {title:"Niddah Semicha Test 2 - Chazara Questions 4", date:"2025-03-19", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1mRuvvyVz6KcL8xwWOo2P4HY19b1Chd6I/view?usp=drivesdk"},
+  {title:"Niddah Semicha Test 2 - Chazara Questions 5", date:"2025-05-25", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1jwhmIdIZxhPFOWTQBhILAGQ5XtvcrVVa/view?usp=drivesdk"},
+  {title:"Niddah Semicha Test 2 - Chazara Questions 6", date:"2025-05-26", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1M582iNVxfNXSMw8ZltNWcOG3hvjBVan_/view?usp=drivesdk"},
+  {title:"Tahara 1", date:"2025-02-19", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1pCo7qop-T5V9LkBSlohi33JVH1DROmR6/view?usp=drivesdk"},
+  {title:"Tahara 1 Pt. 2, 2 & 3", date:"2025-02-20", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1Ymm2oDDZ51NCgfm8_hlO85rY6arpEyrq/view?usp=drivesdk"},
+  {title:"Tahara 3 Pt. 2", date:"2025-02-23", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1YktFA3XDMwLeUBFeThX_2DVn6wukgnKx/view?usp=drivesdk"},
+  {title:"Tahara 4", date:"2025-02-24", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1Q9n6SBQTpU4NUJwdPr0paEPEApQN9V7y/view?usp=drivesdk"},
+  {title:"Tahara 5", date:"2025-02-25", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1jhmsB62N8NtxGlHIgn7dxLq626-mFWfX/view?usp=drivesdk"},
+  {title:"Tahara 6,7 & 8", date:"2025-02-26", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1bzONPFMHMG-QeACv8zKL96WuYw-s0TXf/view?usp=drivesdk"},
+  {title:"Tahara 9", date:"2025-02-27", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1r4iwLGQp_Sw1bocfgS9i9li8GFoAnF3c/view?usp=drivesdk"},
+  {title:"Tahara 9 Pt. 2, 10, 11", date:"2025-03-02", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1MCbeCwsq5e07D5WPtuTrheOZbRSBeTwN/view?usp=drivesdk"},
+  {title:"Tahara 12", date:"2025-03-03", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1YYMhIcZgCniSF0N4NSARsRMH9son-ODb/view?usp=drivesdk"},
+  {title:"Tahara 13 & 14", date:"2025-03-04", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1QTv_IpPefaL-yg7lvNx6aRfnZgP6sz10/view?usp=drivesdk"},
+  {title:"Tahara 15", date:"2025-03-05", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/1Rk42MnVQmBYKKv9XdOQQn29Ean-UFscB/view?usp=drivesdk"},
+  {title:"Tahara 16 17 18", date:"2025-03-06", topic:"Niddah", subtopic:"Tahara", url:"https://drive.google.com/file/d/15A68IAX6FqYPbYsUOAXYHkkjVr-QjTsX/view?usp=drivesdk"},
+].map(s => ({...s, speaker: REBBE}));
+
+// ---- Roshei Chaburah (by-rebbe) branch — real data so far ----
+const ROSHEI_DATA = [
+  {title:"Taamei Hamitzvos 1 - Intro", date:"2026-04-23", topic:"Taamei Hamitzvos", subtopic:"Intro", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/16-RXcaWolygDLQy-sPEO3kgAb0adInPN/view?usp=drivesdk"},
+  {title:"Taamei Hamitzvos 2 - Intro Pt. 2", date:"2026-04-30", topic:"Taamei Hamitzvos", subtopic:"Intro", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/19JEdRSAPmia6rt6UfGpvmd4NdWD7JOhz/view?usp=drivesdk"},
+  {title:"Taamei Hamitzvos 3 - Intro Pt. 3", date:"2026-05-07", topic:"Taamei Hamitzvos", subtopic:"Intro", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/1YCJmojSKOWPKeNGrkgH8VKEQIVSieEAp/view?usp=drivesdk"},
+  {title:"Taamei Hamitzvos 4 - Talmud Torah", date:"2026-05-14", topic:"Taamei Hamitzvos", subtopic:"Talmud Torah", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/1JNEMQNO0edHdcVoxZ7PAGwReHp9kw6A3/view?usp=drivesdk"},
+  {title:"Taamei Hamitzvos 5 - Talmud Torah 2", date:"2026-05-28", topic:"Taamei Hamitzvos", subtopic:"Talmud Torah", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/1CqNsfUC0tiBKEA1d73UwI3clMnXO1RDU/view?usp=drivesdk"},
+  {title:"Taamei Hamitzvos 6 - Talmud Torah 3", date:"2026-06-11", topic:"Taamei Hamitzvos", subtopic:"Talmud Torah", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/13G6vQuU2clYr5N_2iXt_7t-ZxesfCGGl/view?usp=drivesdk"},
+  {title:"Taamei Hamitzvos 7 - Talmud Torah 4 (Teaching to Teach)", date:"2026-06-18", topic:"Taamei Hamitzvos", subtopic:"Talmud Torah", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/1JEkg9bKWN6gSzudxZU5-MuADzpOBag_j/view?usp=drivesdk"},
+  {title:"Taamei Hamitzvos 8 - Tefilah", date:"2026-06-25", topic:"Taamei Hamitzvos", subtopic:"Tefilah", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/1byKAlxWBxb5snw-gt3t5-IrXBZW9EIqJ/view?usp=drivesdk"},
+  {title:"Taamei Hamitzvos 9 - Tefilah 2", date:"2026-07-09", topic:"Taamei Hamitzvos", subtopic:"Tefilah", speaker:"R' Dovid Steinhauer", url:"https://drive.google.com/file/d/1UFYgC3pe8YHGZsA2b34h_fRm2YU-Vg-i/view?usp=drivesdk"},
+  {title:"Me'abeid 1", date:"2026-03-01", topic:"Shabbos", subtopic:"Me'abeid", speaker:"R' Benjy Goldberg", url:"https://drive.google.com/file/d/1Hm55S-Z2FYOfxSuq1Dv2UkwC8j8IM3t9/view?usp=drivesdk"},
+  {title:"Me'abeid 2", date:"2026-03-05", topic:"Shabbos", subtopic:"Me'abeid", speaker:"R' Benjy Goldberg", url:"https://drive.google.com/file/d/1Kty4Dv5wBnPV3tOy9jmoksQ7HksnyyLq/view?usp=drivesdk"},
+];
+
+let shiurim = STATIC_FALLBACK.concat(ROSHEI_DATA);
+
+const topics = [
+  {num:"00", name:"Klalei Hora'ah"},
+  {num:"01", name:"Issur V'Heter"},
+  {num:"02", name:"Niddah"},
+  {num:"03", name:"Shabbos"},
+  {num:"04", name:"Aveilus / Smachos"},
+  {num:"05", name:"Yom Tovim — Halacha & Hashkafa"},
+  {num:"—", name:"Bein Adom L'Chaveiro (NLE)"},
+  {num:"—", name:"Halacha — Various Topics & Series"},
+  {num:"—", name:"Hashkafa — Various Topics & Series"},
+  {num:"—", name:"Practical Rabbinics"},
+  {num:"—", name:"Q & A"},
+  {num:"—", name:"Guest Speakers"},
+];
+
+const rabbis = [
+  "R' Yitzchok Berkovits (Main Shiurim Library)",
+  "R' Dovid Steinhauer",
+  "R' Benjy Goldberg",
+  "R' Gabi Kruskal",
+  "R' Binyomin Feldman",
+  "R' Yossi Stilerman",
+  "R' Mati Freidman",
+  "R' Aryeh Leib Richter",
+  "R’ Elbaz",
+  "R' Gershon Bertman",
+  "R' Shalom Zagelbaum",
+];
+function rabbiKey(displayName){ return displayName.split(' (')[0]; }
+
+// ============================================================
+function initials(name){
+  return (name||'?').split(/\s+/).map(w => w.replace(/[^A-Za-z]/g,'')).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+function avatarHTML(name){
+  const photo = SPEAKER_PHOTOS[name];
+  if (photo) return `<img class="avatar" src="${photo}" alt="${name}">`;
+  return `<div class="avatar">${initials(name)}</div>`;
+}
+function isoDate(d){ return d.toISOString().slice(0,10); }
+function fmtStamp(d){
+  if (!d) return '—';
+  const [y,m,day] = d.split('-');
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  return `${months[parseInt(m,10)-1]} ${day}<br>${y}`;
+}
+
+// ---- TODAY carousel ----
+function renderCarousel(){
+  const el = document.getElementById('carousel');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayISO = isoDate(today);
+  let html = '';
+  for (let i = 0; i < 14; i++){
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    const dISO = isoDate(d);
+    const isToday = dISO === todayISO;
+    const yestISO = (() => { const y = new Date(today); y.setDate(y.getDate()-1); return isoDate(y); })();
+    let label = d.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
+    if (isToday) label = 'Today';
+    else if (dISO === yestISO) label = 'Yesterday';
+    const matches = shiurim.filter(s => s.date === dISO);
+    html += `<div class="day-card${isToday ? ' is-today' : ''}">
+      <div class="dlabel">${isToday ? 'Given over' : label}</div>
+      <div class="ddate">${d.toLocaleDateString('en-US',{month:'long', day:'numeric', year:'numeric'})}</div>
+      <div class="dcount">${matches.length ? matches.length + (matches.length===1?' shiur':' shiurim') : 'nothing indexed'}</div>
+      <div class="ditems">`;
+    if (!matches.length){
+      html += `<div class="day-empty">No shiur indexed for this date yet.</div>`;
+    } else {
+      matches.forEach(s => {
+        html += `<div class="day-item"><a href="${s.url}" target="_blank" rel="noopener">
+          ${avatarHTML(s.speaker)}
+          <div>
+            <div class="dt-title">${s.title}</div>
+            <div class="dt-sub">${s.topic}${s.subtopic ? ' / ' + s.subtopic : ''}</div>
+          </div>
+          <span class="go-dot">&#8599;</span>
+        </a></div>`;
+      });
+    }
+    html += `</div></div>`;
+  }
+  el.innerHTML = html;
+}
+document.getElementById('carousel-prev').addEventListener('click', () => {
+  document.getElementById('carousel').scrollBy({left: -320, behavior:'smooth'});
+});
+document.getElementById('carousel-next').addEventListener('click', () => {
+  document.getElementById('carousel').scrollBy({left: 320, behavior:'smooth'});
+});
+
+// ---- Rabbis / Topics / Cards / Search ----
+const drawersEl = document.getElementById('drawers');
+const rabbisEl = document.getElementById('rabbis');
+const cardsEl = document.getElementById('cards');
+const chipsEl = document.getElementById('chips');
+const searchEl = document.getElementById('search');
+const resultsTitle = document.getElementById('results-title');
+const resultsCount = document.getElementById('results-count');
+const backBtn = document.getElementById('back-btn');
+
+function countForTopic(name){ return shiurim.filter(s => s.topic === name).length; }
+function countForRabbi(name){ return shiurim.filter(s => s.speaker === name).length; }
+
+function renderRabbis(){
+  rabbisEl.innerHTML = '';
+  let liveCount = 0;
+  rabbis.forEach(display => {
+    const key = rabbiKey(display);
+    const c = countForRabbi(key);
+    if (c > 0) liveCount++;
+    const div = document.createElement('div');
+    div.className = 'rabbi-card' + (c === 0 ? ' locked' : '');
+    div.innerHTML = `${avatarHTML(key)}
+      <div>
+        <div class="name">${display}</div>
+        <div class="meta">${c > 0 ? `<span class="live-dot"></span>${c} shiurim indexed` : 'not indexed yet'}</div>
+      </div>`;
+    if (c > 0) div.addEventListener('click', () => filterBySpeaker(key));
+    rabbisEl.appendChild(div);
+  });
+  document.getElementById('rabbi-count').textContent = liveCount + ' of ' + rabbis.length + ' rabbis live';
+}
+
+function renderDrawers(){
+  drawersEl.innerHTML = '';
+  document.getElementById('topic-count').textContent = topics.filter(t=>countForTopic(t.name)>0).length + ' of ' + topics.length + ' categories live';
+  topics.forEach(t => {
+    const c = countForTopic(t.name);
+    const div = document.createElement('div');
+    div.className = 'drawer' + (c === 0 ? ' locked' : '');
+    div.innerHTML = `<div class="num">${t.num}</div><div class="name">${t.name}</div>
+      <div class="meta">${c > 0 ? `<span class="live-dot"></span>${c} shiurim indexed` : 'not indexed yet'}</div>`;
+    if (c > 0) div.addEventListener('click', () => filterByTopic(t.name));
+    drawersEl.appendChild(div);
+  });
+}
+
+function renderChips(){
+  const subtopics = [...new Set(shiurim.map(s => s.subtopic).filter(Boolean))];
+  chipsEl.innerHTML = '';
+  subtopics.forEach(st => {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = st;
+    b.addEventListener('click', () => {
+      searchEl.value = '';
+      const isActive = b.classList.contains('active');
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      backBtn.style.display = 'none';
+      if (!isActive){ b.classList.add('active'); renderCards(shiurim.filter(s => s.subtopic === st)); resultsTitle.textContent = st; }
+      else { renderCards(shiurim); resultsTitle.textContent = 'All indexed shiurim'; }
+      document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    chipsEl.appendChild(b);
+  });
+}
+
+function filterByTopic(name){
+  backBtn.style.display = 'inline-block';
+  resultsTitle.textContent = name;
+  renderCards(shiurim.filter(s => s.topic === name));
+  document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function filterBySpeaker(name){
+  backBtn.style.display = 'inline-block';
+  resultsTitle.textContent = name;
+  renderCards(shiurim.filter(s => s.speaker === name));
+  document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
+}
+backBtn.addEventListener('click', () => {
+  backBtn.style.display = 'none';
+  resultsTitle.textContent = 'All indexed shiurim';
+  renderCards(shiurim);
+});
+
+function renderCards(list){
+  resultsCount.textContent = list.length + (list.length === 1 ? ' shiur' : ' shiurim');
+  if (list.length === 0){
+    cardsEl.innerHTML = `<div class="empty">Nothing indexed here yet.</div>`;
+    return;
+  }
+  cardsEl.innerHTML = list.map(s => `
+    <a class="card" href="${s.url}" target="_blank" rel="noopener">
+      <div class="stamp">${fmtStamp(s.date)}</div>
+      ${avatarHTML(s.speaker)}
+      <div>
+        <div class="title">${s.title}</div>
+        <div class="path">${s.topic}${s.subtopic ? ' / ' + s.subtopic : ''} &middot; ${s.speaker}</div>
+      </div>
+      <div class="go">open &#8599;</div>
+    </a>
+  `).join('');
+}
+
+searchEl.addEventListener('input', () => {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  const q = searchEl.value.trim().toLowerCase();
+  backBtn.style.display = 'none';
+  if (!q){ resultsTitle.textContent = 'All indexed shiurim'; renderCards(shiurim); return; }
+  const filtered = shiurim.filter(s =>
+    s.title.toLowerCase().includes(q) ||
+    (s.topic||'').toLowerCase().includes(q) ||
+    (s.subtopic||'').toLowerCase().includes(q) ||
+    (s.speaker||'').toLowerCase().includes(q) ||
+    (s.date||'').includes(q)
+  );
+  resultsTitle.textContent = `Results for "${searchEl.value}"`;
+  renderCards(filtered);
+  document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+// ---- Suggested / Related ----
+const HOLIDAYS = [
+  {name:"Rosh Hashanah", keywords:["rosh hashana","shofar","selichos","malchuyos","zichronos"], month:9, day:1, windowDaysBefore:21},
+  {name:"Yom Kippur", keywords:["yom kippur","kapparah","teshuva","kol nidrei"], month:9, day:10, windowDaysBefore:14},
+  {name:"Sukkos", keywords:["sukkah","sukkos","lulav","esrog","daled minim"], month:9, day:15, windowDaysBefore:14},
+  {name:"Chanukah", keywords:["chanukah","ner chanukah","menorah"], month:11, day:25, windowDaysBefore:21},
+  {name:"Purim", keywords:["purim","megillah","mishloach manos"], month:2, day:14, windowDaysBefore:21},
+  {name:"Pesach", keywords:["pesach","chometz","seder","haggadah","matzah"], month:3, day:15, windowDaysBefore:30},
+  {name:"Shavuos", keywords:["shavuos","aseres hadibros","megillas rus"], month:5, day:6, windowDaysBefore:14},
+  {name:"The Three Weeks", keywords:["three weeks","bein hametzarim","tisha b'av","churban","nine days"], month:6, day:17, windowDaysBefore:7},
+];
+// Approximate civil-calendar windows (Hebrew month/day above is illustrative;
+// this checks against a rough recurring civil-date range so it activates
+// automatically as those times of year approach — refine per actual Hebrew date later.
+function isNearHoliday(h){
+  // Placeholder simple month-based proximity check using civil calendar clustering.
+  const now = new Date();
+  const civilWindows = {
+    "Rosh Hashanah":[8,9], "Yom Kippur":[8,9], "Sukkos":[8,9],
+    "Chanukah":[10,11], "Purim":[1,2], "Pesach":[2,3],
+    "Shavuos":[4,5], "The Three Weeks":[5,6]
+  };
+  const months = civilWindows[h.name] || [];
+  return months.includes(now.getMonth());
+}
+
+function renderSuggestions(){
+  const wrap = document.getElementById('suggest-wrap');
+  let html = '';
+
+  // 1) Because you're following — based on the most recently indexed shiur's topic/subtopic
+  const sorted = [...shiurim].filter(s=>s.date).sort((a,b) => b.date.localeCompare(a.date));
+  if (sorted.length){
+    const anchor = sorted[0];
+    const related = shiurim.filter(s => s !== anchor && (s.subtopic === anchor.subtopic || s.topic === anchor.topic));
+    if (related.length){
+      const showKey = anchor.subtopic || anchor.topic;
+      html += `<div class="suggest-card" data-suggest="topic:${showKey}">
+        <div class="stag">Because you're following</div>
+        <div class="stitle">${showKey}</div>
+        ${related.slice(0,3).map(s => `<div class="suggest-line"><span>${s.title}</span><span class="sdate">${s.date||''}</span></div>`).join('')}
+        ${related.length > 3 ? `<div class="suggest-more">+ ${related.length - 3} more &rarr;</div>` : ''}
+      </div>`;
+    }
+  }
+
+  // 2) Upcoming Yom Tov — related content from previous years
+  HOLIDAYS.forEach(h => {
+    if (!isNearHoliday(h)) return;
+    const matches = shiurim.filter(s => h.keywords.some(k => (s.title+' '+s.topic+' '+s.subtopic).toLowerCase().includes(k)));
+    html += `<div class="suggest-card" data-suggest="holiday:${h.name}">
+      <div class="stag">${h.name} is approaching</div>
+      <div class="stitle">From previous years</div>
+      ${matches.length ? matches.slice(0,3).map(s => `<div class="suggest-line"><span>${s.title}</span><span class="sdate">${s.date||''}</span></div>`).join('')
+        : `<div class="suggest-line"><span>Nothing indexed for ${h.name} yet.</span></div>`}
+      ${matches.length > 3 ? `<div class="suggest-more">+ ${matches.length - 3} more &rarr;</div>` : ''}
+    </div>`;
+  });
+
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('.suggest-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const [kind, val] = card.dataset.suggest.split(':');
+      backBtn.style.display = 'inline-block';
+      resultsTitle.textContent = val;
+      if (kind === 'topic'){
+        renderCards(shiurim.filter(s => s.subtopic === val || s.topic === val));
+      } else {
+        const h = HOLIDAYS.find(x => x.name === val);
+        renderCards(shiurim.filter(s => h.keywords.some(k => (s.title+' '+s.topic+' '+s.subtopic).toLowerCase().includes(k))));
+      }
+      document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+
+renderCarousel();
+renderSuggestions();
+renderRabbis();
+renderDrawers();
+renderChips();
+renderCards(shiurim);
+</script>
+</body>
+</html>
