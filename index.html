@@ -408,6 +408,11 @@ const ROSHEI_DATA = [
   {title:"Me'abeid 2", date:"2026-03-05", topic:"Shabbos", subtopic:"Me'abeid", speaker:"R' Benjy Goldberg", url:"https://drive.google.com/file/d/1Kty4Dv5wBnPV3tOy9jmoksQ7HksnyyLq/view?usp=drivesdk"},
 ];
 
+// Paste your Apps Script web app URL here once jk-indexer.gs is deployed
+// (Deploy -> New deployment -> Web app -> copy the URL ending in /exec).
+// Leave blank to keep using the hand-indexed list below.
+const API_URL = 'https://script.google.com/macros/s/AKfycbxl0fkILIsqckGiE5y8ZLYPFyIk1FQpE0YPVpcCp5hUOs7rRyEY6zGInA0-CPGpL3nJYQ/exec';
+
 let shiurim = STATIC_FALLBACK.concat(ROSHEI_DATA);
 
 const topics = [
@@ -824,12 +829,33 @@ function renderSuggestions(){
   });
 }
 
-renderCarousel();
-renderSuggestions();
-renderRabbis();
-renderDrawers();
-renderChips();
-renderCards(shiurim);
+function init(){
+  renderCarousel();
+  renderSuggestions();
+  renderRabbis();
+  renderDrawers();
+  renderChips();
+  renderCards(shiurim);
+}
+
+init();
+
+// If jk-indexer.gs has been deployed and API_URL set above, quietly fetch
+// the auto-crawled data in the background and refresh the page with it.
+// Any failure (not deployed yet, network issue, bad URL) just leaves the
+// hand-indexed STATIC_FALLBACK + ROSHEI_DATA list showing — no error shown
+// to visitors.
+if (API_URL) {
+  fetch(API_URL)
+    .then(r => r.json())
+    .then(data => {
+      if (Array.isArray(data) && data.length){
+        shiurim = data;
+        init();
+      }
+    })
+    .catch(() => {});
+}
 </script>
 </body>
 </html>
