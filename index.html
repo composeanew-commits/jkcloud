@@ -6,388 +6,302 @@
 <title>JK Shiurim Library</title>
 <link rel="icon" href="data:image/png;base64,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">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --parchment:#F1EBDD;
-    --card:#FBF8F1;
-    --ink:#15120D;
-    --wine:#7A2E2E;
-    --brass:#CFA05A;
-    --brass-soft:#E4C280;
-    --brass-dim: rgba(207,160,90,0.16);
-    --line: rgba(21,18,13,0.12);
-    --shadow: rgba(21,18,13,0.12);
+    --bg:#0B0B0A;
+    --surface:#171614;
+    --surface-2:#1F1D19;
+    --text:#F5F1E6;
+    --text-dim:rgba(245,241,230,0.62);
+    --text-faint:rgba(245,241,230,0.4);
+    --accent:#E8B84B;
+    --accent-soft:#F2CD73;
+    --accent-dim:rgba(232,184,75,0.14);
+    --wine:#E38B6C;
+    --line:rgba(245,241,230,0.09);
+    --shadow:rgba(0,0,0,0.5);
+    --radius-lg:16px;
+    --radius-md:12px;
+    --radius-sm:8px;
   }
-  html[data-theme="dark"]{
-    --parchment:#141210;
-    --card:#1D1A16;
-    --ink:#F1EBDD;
-    --wine:#E28B8B;
-    --brass:#E4C280;
-    --brass-soft:#CFA05A;
-    --brass-dim: rgba(228,194,128,0.14);
-    --line: rgba(241,235,221,0.12);
-    --shadow: rgba(0,0,0,0.4);
+  html[data-theme="light"]{
+    --bg:#F6F3EC;
+    --surface:#FFFFFF;
+    --surface-2:#FBF8F1;
+    --text:#17140F;
+    --text-dim:rgba(23,20,15,0.62);
+    --text-faint:rgba(23,20,15,0.42);
+    --accent:#C2892A;
+    --accent-soft:#E0A93F;
+    --accent-dim:rgba(194,137,42,0.12);
+    --wine:#B24B2E;
+    --line:rgba(23,20,15,0.1);
+    --shadow:rgba(23,20,15,0.14);
   }
-  html[data-theme="dark"] body{background-image: radial-gradient(rgba(241,235,221,0.03) 1px, transparent 1px);}
-  html[data-theme="dark"] .day-card.is-today{background:linear-gradient(155deg, #0f0d0a 55%, #1a140c 100%);}
-  body, .card, .topbar, .brand, #mini-player{transition:background-color .25s ease, color .25s ease, border-color .25s ease;}
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--parchment);
-    background-image: radial-gradient(rgba(21,18,13,0.035) 1px, transparent 1px);
-    background-size: 22px 22px;
-    color:var(--ink);
-    font-family:'Source Serif 4', serif;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing:antialiased;
+    transition:background-color .25s ease, color .25s ease;
   }
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
-  ::selection{background:var(--brass-dim);}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+  ::selection{background:var(--accent-dim);}
   a{color:inherit;}
+  *{transition:background-color .18s ease, border-color .18s ease, color .18s ease;}
 
   .topbar{
     position:sticky; top:0; z-index:40;
-    background:rgba(241,235,221,0.86); backdrop-filter:blur(10px);
+    background:rgba(11,11,10,0.78); backdrop-filter:blur(14px) saturate(1.4);
     border-bottom:1px solid var(--line);
   }
-  .topbar-inner{max-width:1080px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  html[data-theme="light"] .topbar{background:rgba(246,243,236,0.82);}
+  .topbar-inner{max-width:1100px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
 
   .brand{
-    display:flex; align-items:center; gap:0; padding:6px 16px 6px 10px; border-radius:14px;
-    background:linear-gradient(135deg, rgba(207,160,90,0.16), rgba(122,46,46,0.05));
-    border:1px solid rgba(207,160,90,0.28);
+    display:flex; align-items:center; gap:0; padding:6px 16px 6px 8px; border-radius:var(--radius-md);
+    background:var(--accent-dim);
+    border:1px solid rgba(232,184,75,0.22);
     transition:box-shadow .25s ease, transform .2s ease;
   }
-  .brand:hover{
-    box-shadow:0 0 0 3px rgba(207,160,90,0.16), 0 10px 22px rgba(122,46,46,0.16);
-    transform:translateY(-1px);
-  }
-  .brand img{height:32px; display:block; filter:drop-shadow(0 1px 3px rgba(21,18,13,0.18));}
+  .brand:hover{box-shadow:0 0 0 3px var(--accent-dim), 0 10px 24px var(--shadow); transform:translateY(-1px);}
+  .brand img{height:30px; display:block; filter:drop-shadow(0 1px 3px rgba(0,0,0,0.3));}
 
-  .search-box{position:relative; width:min(340px, 46vw);}
+  .search-box{position:relative; width:min(360px, 46vw);}
   .topbar-search{
-    display:flex; align-items:center; gap:8px; background:var(--card); border:1px solid var(--line);
-    border-radius:20px; padding:8px 12px 8px 14px; width:100%;
+    display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--line);
+    border-radius:24px; padding:9px 14px; width:100%;
     transition:border-color .15s ease, box-shadow .15s ease;
   }
-  .topbar-search:focus-within{border-color:var(--brass); box-shadow:0 0 0 3px var(--brass-dim);}
-  .topbar-search input{border:none; background:none; outline:none; font-family:'Source Serif 4', serif; font-size:14px; width:100%; color:var(--ink);}
+  .topbar-search:focus-within{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim);}
+  .topbar-search input{border:none; background:none; outline:none; font-family:'Inter', sans-serif; font-size:14px; width:100%; color:var(--text);}
+  .topbar-search input::placeholder{color:var(--text-faint);}
   .topbar-search svg{flex-shrink:0; opacity:.5;}
   .search-kbd{
-    font-family:'IBM Plex Mono', monospace; font-size:10px; color:rgba(21,18,13,0.4);
-    border:1px solid var(--line); border-radius:5px; padding:2px 5px; flex-shrink:0;
+    font-family:'Inter', sans-serif; font-size:10px; color:var(--text-faint);
+    border:1px solid var(--line); border-radius:5px; padding:2px 6px; flex-shrink:0;
   }
 
   .search-dropdown{
     position:absolute; top:calc(100% + 8px); left:0; right:0;
-    background:var(--card); border:1px solid var(--line); border-radius:14px;
-    box-shadow:0 18px 40px rgba(21,18,13,0.18); overflow:hidden; z-index:60; display:none;
+    background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-md);
+    box-shadow:0 20px 44px var(--shadow); overflow:hidden; z-index:60; display:none;
   }
   .search-dropdown.open{display:block;}
   .sd-item{
     display:flex; align-items:center; gap:10px; padding:10px 14px; cursor:pointer;
-    border-top:1px solid var(--line); text-decoration:none; color:var(--ink);
+    border-top:1px solid var(--line); text-decoration:none; color:var(--text);
   }
   .sd-item:first-child{border-top:none;}
-  .sd-item:hover, .sd-item.active{background:var(--brass-dim);}
-  .sd-item .sd-title{font-family:'Source Serif 4', serif; font-size:13.5px; line-height:1.25;}
-  .sd-item .sd-hint{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(21,18,13,0.52); margin-top:2px;}
-  .sd-item mark{background:var(--brass-soft); color:var(--ink); border-radius:2px; padding:0 1px;}
-  .sd-empty{padding:14px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:rgba(21,18,13,0.5);}
-  .sd-footer{padding:9px 14px; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--brass); border-top:1px solid var(--line); cursor:pointer;}
-  .sd-footer:hover{background:var(--brass-dim);}
+  .sd-item:hover, .sd-item.active{background:var(--accent-dim);}
+  .sd-item .sd-title{font-family:'Inter', sans-serif; font-weight:500; font-size:13.5px; line-height:1.25;}
+  .sd-item .sd-hint{font-family:'Inter', sans-serif; font-size:11px; color:var(--text-faint); margin-top:2px;}
+  .sd-item mark{background:var(--accent-soft); color:#17140F; border-radius:2px; padding:0 1px;}
+  .sd-empty{padding:14px; font-family:'Inter', sans-serif; font-size:12.5px; color:var(--text-faint);}
+  .sd-footer{padding:9px 14px; font-family:'Inter', sans-serif; font-size:11px; color:var(--accent); border-top:1px solid var(--line); cursor:pointer;}
+  .sd-footer:hover{background:var(--accent-dim);}
 
-  header{padding:40px 0 8px;}
+  header{padding:44px 0 8px; animation:fade-up .5s ease both;}
+  @keyframes fade-up{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
   .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
+    font-family:'Inter', sans-serif; font-weight:600;
     font-size:12px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--wine); margin:0 0 10px;
   }
   h1{
     font-family:'Fraunces', serif;
-    font-weight:600; font-size:clamp(30px,4.6vw,46px);
-    line-height:1.04; margin:0 0 10px; letter-spacing:-0.01em;
+    font-weight:600; font-size:clamp(32px,4.8vw,50px);
+    line-height:1.02; margin:0 0 10px; letter-spacing:-0.015em;
   }
   header p.sub{
-    max-width:620px; color:rgba(21,18,13,0.68); font-size:16px; line-height:1.5; margin:0;
+    max-width:620px; color:var(--text-dim); font-size:16px; line-height:1.55; margin:0;
   }
 
-  /* TODAY carousel */
-  .today-wrap{margin-top:30px;}
-  .today-topline{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+  /* ---- Theme toggle ---- */
+  .theme-toggle{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--surface);
+    color:var(--text); cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .theme-toggle:hover{border-color:var(--accent); transform:translateY(-1px) rotate(15deg);}
+
+  /* TODAY carousel — 3D coverflow */
+  .today-wrap{margin-top:32px;}
+  .today-topline{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
   .today-topline h2{
-    font-family:'Fraunces', serif; font-weight:600; font-size:19px; margin:0;
+    font-family:'Fraunces', serif; font-weight:600; font-size:20px; margin:0;
     display:flex; align-items:center; gap:8px;
   }
   .today-topline h2::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--wine); display:inline-block;}
   .day-nav{display:flex; gap:6px;}
   .day-btn{
-    width:32px; height:32px; border-radius:50%; border:1px solid var(--line);
-    background:var(--card); color:var(--ink); cursor:pointer; font-size:15px;
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); cursor:pointer; font-size:15px;
     display:flex; align-items:center; justify-content:center;
   }
-  .day-btn:hover{border-color:var(--brass); color:var(--wine);}
+  .day-btn:hover{border-color:var(--accent); color:var(--accent);}
 
+  .carousel-3d-wrap{perspective:1400px; padding:20px 0 26px;}
   .carousel{
-    display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory;
-    padding:4px 4px 14px; margin:0 -4px;
-    -webkit-overflow-scrolling:touch; scrollbar-width:thin;
+    display:flex; gap:0; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:10px 40vw; margin:0 -24px; transform-style:preserve-3d;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
   }
-  .carousel::-webkit-scrollbar{height:6px;}
-  .carousel::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px;}
+  .carousel::-webkit-scrollbar{display:none;}
   .day-card{
-    scroll-snap-align:start; flex:0 0 auto; width:min(300px, 78vw);
-    background:var(--ink); color:var(--parchment); border-radius:12px; padding:18px;
-    position:relative; overflow:hidden;
+    scroll-snap-align:center; flex:0 0 auto; width:min(300px, 72vw); margin:0 10px;
+    background:var(--surface); color:var(--text); border-radius:var(--radius-lg); padding:20px;
+    position:relative; overflow:hidden; border:1px solid var(--line);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s ease, box-shadow .35s ease;
+    transform-origin:center center;
   }
-  .day-card.is-today{background:linear-gradient(155deg, var(--ink) 55%, #2b2013 100%); box-shadow:0 10px 30px rgba(21,18,13,0.25);}
-  .day-card{transition:transform .2s ease, box-shadow .2s ease;}
-  .day-card:hover{transform:translateY(-3px); box-shadow:0 14px 32px rgba(21,18,13,0.22);}
-  @keyframes fade-up{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
-  header{animation:fade-up .5s ease both;}
+  .day-card.is-today{background:linear-gradient(155deg, var(--surface) 55%, var(--accent-dim) 150%); box-shadow:0 14px 34px var(--shadow);}
   .day-card::before{
     content:""; position:absolute; inset:0;
-    background: radial-gradient(240px 120px at 100% -10%, rgba(207,160,90,0.3), transparent 65%);
+    background: radial-gradient(240px 120px at 100% -10%, var(--accent-dim), transparent 65%);
     pointer-events:none;
   }
-  .day-card .dlabel{font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--brass); position:relative;}
-  .day-card .ddate{font-family:'Fraunces', serif; font-weight:600; font-size:17px; margin-top:3px; position:relative;}
-  .day-card .dcount{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(241,235,221,0.5); margin-top:2px; position:relative;}
-  .day-card .ditems{margin-top:12px; position:relative;}
+  .day-card .dlabel{font-family:'Inter', sans-serif; font-weight:600; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); position:relative;}
+  .day-card .ddate{font-family:'Fraunces', serif; font-weight:600; font-size:18px; margin-top:3px; position:relative;}
+  .day-card .dcount{font-family:'Inter', sans-serif; font-size:10.5px; color:var(--text-faint); margin-top:2px; position:relative;}
+  .day-card .ditems{margin-top:14px; position:relative;}
   .day-item{
     display:flex; align-items:center; gap:10px; padding:8px 0;
-    border-top:1px solid rgba(241,235,221,0.12);
+    border-top:1px solid var(--line);
   }
   .day-item:first-child{border-top:none;}
   .day-item a{text-decoration:none; display:flex; align-items:center; gap:10px; width:100%;}
-  .day-item .dt-title{font-family:'Source Serif 4', serif; font-size:13.5px; line-height:1.25; color:var(--parchment);}
-  .day-item .dt-sub{font-family:'IBM Plex Mono', monospace; font-size:9.5px; color:rgba(241,235,221,0.5); margin-top:1px;}
-  .day-item .go-dot{margin-left:auto; flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--brass); color:var(--ink); display:flex; align-items:center; justify-content:center; font-size:10px;}
-  .day-empty{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:rgba(241,235,221,0.5); padding:10px 0; position:relative;}
+  .day-item .dt-title{font-family:'Inter', sans-serif; font-weight:500; font-size:13.5px; line-height:1.25; color:var(--text);}
+  .day-item .dt-sub{font-family:'Inter', sans-serif; font-size:10px; color:var(--text-faint); margin-top:1px;}
+  .day-item .go-dot{margin-left:auto; flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--accent); color:#17140F; display:flex; align-items:center; justify-content:center; font-size:10px;}
+  .day-empty{font-family:'Inter', sans-serif; font-size:12px; color:var(--text-faint); padding:10px 0; position:relative;}
 
   .avatar{
     width:30px; height:30px; border-radius:50%; flex-shrink:0;
     display:flex; align-items:center; justify-content:center;
-    font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600;
-    background:rgba(207,160,90,0.2); color:var(--brass-soft); border:1px solid rgba(207,160,90,0.35);
+    font-family:'Inter', sans-serif; font-size:11px; font-weight:600;
+    background:var(--accent-dim); color:var(--accent-soft); border:1px solid rgba(232,184,75,0.28);
     object-fit:cover;
   }
-  .card .avatar, .rabbi-card .avatar{background:var(--brass-dim); color:var(--wine); border-color:rgba(122,46,46,0.2);}
 
-  .finder{margin-top:34px;}
+  .finder{margin-top:36px;}
   .finder-label{
-    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
-    color:rgba(21,18,13,0.5); margin-bottom:10px;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--text-faint); margin-bottom:10px;
   }
   .chips{display:flex; flex-wrap:wrap; gap:8px;}
   .chip{
-    font-family:'IBM Plex Mono', monospace; font-size:12px;
-    border:1px solid var(--line); background:var(--card); color:var(--ink);
-    padding:7px 12px; border-radius:20px; cursor:pointer; letter-spacing:.02em;
+    font-family:'Inter', sans-serif; font-size:12.5px; font-weight:500;
+    border:1px solid var(--line); background:var(--surface); color:var(--text);
+    padding:7px 14px; border-radius:20px; cursor:pointer; letter-spacing:.01em;
   }
-  .chip.active{background:var(--ink); color:var(--parchment); border-color:var(--ink);}
-  .chip:hover{border-color:var(--brass);}
+  .chip.active{background:var(--accent); color:#17140F; border-color:var(--accent);}
+  .chip:hover{border-color:var(--accent);}
 
-  section{padding:40px 0;}
-  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:12px;}
-  .section-head h2{font-family:'Fraunces', serif; font-weight:600; font-size:23px; margin:0;}
-  .section-head p.tag{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:rgba(21,18,13,0.5); margin:4px 0 0;}
+  section{padding:44px 0;}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:22px; border-bottom:1px solid var(--line); padding-bottom:14px; flex-wrap:wrap; gap:10px;}
+  .section-head h2{font-family:'Fraunces', serif; font-weight:600; font-size:24px; margin:0;}
+  .section-head p.tag{font-family:'Inter', sans-serif; font-size:12px; color:var(--text-faint); margin:4px 0 0;}
 
-  .suggest-wrap{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-top:30px;}
+  .suggest-wrap{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-top:32px;}
   .suggest-card{
-    border:1px solid var(--line); background:var(--card); border-radius:12px; padding:16px 18px;
-    cursor:pointer; transition:box-shadow .15s ease, border-color .15s ease;
+    border:1px solid var(--line); background:var(--surface); border-radius:var(--radius-md); padding:16px 18px;
+    cursor:pointer; transition:box-shadow .15s ease, border-color .15s ease, transform .15s ease;
   }
-  .suggest-card:hover{box-shadow:0 8px 20px rgba(21,18,13,0.08); border-color:var(--brass);}
-  .suggest-card .stag{font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--wine);}
+  .suggest-card:hover{box-shadow:0 10px 24px var(--shadow); border-color:var(--accent); transform:translateY(-2px);}
+  .suggest-card .stag{font-family:'Inter', sans-serif; font-weight:600; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--wine);}
   .suggest-card .stitle{font-family:'Fraunces', serif; font-weight:600; font-size:16px; margin-top:5px;}
-  .today-date-line{font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.03em; color:var(--ink); opacity:.7; margin-bottom:10px; grid-column:1/-1;}
-  .suggest-line{font-family:'Source Serif 4', serif; font-size:13.5px; padding:6px 0; border-top:1px dashed var(--line); display:flex; justify-content:space-between; gap:10px;}
+  .today-date-line{font-family:'Inter', sans-serif; font-size:12px; letter-spacing:.02em; color:var(--text-dim); margin-bottom:10px; grid-column:1/-1;}
+  .suggest-line{font-family:'Inter', sans-serif; font-size:13.5px; padding:6px 0; border-top:1px dashed var(--line); display:flex; justify-content:space-between; gap:10px;}
   .suggest-line:first-of-type{border-top:none; margin-top:10px;}
-  .suggest-line .sdate{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(21,18,13,0.42); white-space:nowrap;}
-  .suggest-more{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--brass); margin-top:8px;}
-  .count{font-family:'IBM Plex Mono', monospace; font-size:12px; color:rgba(21,18,13,0.5);}
+  .suggest-line .sdate{font-family:'Inter', sans-serif; font-size:10.5px; color:var(--text-faint); white-space:nowrap;}
+  .suggest-more{font-family:'Inter', sans-serif; font-size:11px; color:var(--accent); margin-top:8px;}
+  .count{font-family:'Inter', sans-serif; font-size:12px; color:var(--text-faint);}
 
   /* Rabbi grid */
   .rabbis{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px;}
   .rabbi-card{
-    border:1px solid var(--line); background:var(--card); padding:16px;
-    cursor:pointer; border-radius:12px; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    border:1px solid var(--line); background:var(--surface); padding:16px;
+    cursor:pointer; border-radius:var(--radius-md); transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
     display:flex; align-items:center; gap:12px;
   }
-  .rabbi-card:hover{transform:translateY(-3px); box-shadow:0 10px 24px rgba(21,18,13,0.09); border-color:var(--brass);}
+  .rabbi-card:hover{transform:translateY(-3px); box-shadow:0 12px 28px var(--shadow); border-color:var(--accent);}
   .rabbi-card .avatar{width:44px; height:44px; font-size:14px;}
-  .rabbi-card .name{font-family:'Fraunces', serif; font-weight:500; font-size:16px; line-height:1.2;}
-  .rabbi-card .meta{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(21,18,13,0.42); margin-top:5px; display:flex; align-items:center; gap:5px;}
-  .rabbi-card .meta .live-dot{width:6px;height:6px;border-radius:50%; background:#4a7a4a; display:inline-block;}
-  .rabbi-card.locked{opacity:.45; cursor:default;}
+  .rabbi-card .name{font-family:'Inter', sans-serif; font-weight:600; font-size:15px; line-height:1.2;}
+  .rabbi-card .meta{font-family:'Inter', sans-serif; font-size:10.5px; color:var(--text-faint); margin-top:5px; display:flex; align-items:center; gap:5px;}
+  .rabbi-card .meta .live-dot{width:6px;height:6px;border-radius:50%; background:#5FAE6E; display:inline-block;}
+  .rabbi-card.locked{opacity:.4; cursor:default;}
   .rabbi-card.locked:hover{transform:none; box-shadow:none; border-color:var(--line);}
+  .show-more-btn{
+    grid-column:1/-1; display:block; margin:6px auto 0; padding:10px 26px; border-radius:20px; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); font-family:'Inter', sans-serif; font-size:12.5px; font-weight:500; cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .show-more-btn:hover{border-color:var(--accent); background:var(--accent-dim);}
 
   /* Topic drawers */
   .drawers{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;}
   .drawer{
-    border:1px solid var(--line); background:var(--card); padding:16px;
-    cursor:pointer; border-radius:12px; transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    border:1px solid var(--line); background:var(--surface); padding:16px;
+    cursor:pointer; border-radius:var(--radius-md); transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
   }
-  .drawer:hover{transform:translateY(-3px); box-shadow:0 10px 24px rgba(21,18,13,0.09); border-color:var(--brass);}
-  .drawer .num{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--wine); letter-spacing:.06em;}
-  .drawer .name{font-family:'Fraunces', serif; font-weight:500; font-size:17px; margin-top:6px; line-height:1.2;}
-  .drawer .meta{font-family:'IBM Plex Mono', monospace; font-size:11px; color:rgba(21,18,13,0.42); margin-top:8px; display:flex; align-items:center; gap:5px;}
-  .drawer .meta .live-dot{width:6px;height:6px;border-radius:50%; background:#4a7a4a; display:inline-block;}
-  .drawer.locked{opacity:.48; cursor:default;}
+  .drawer:hover{transform:translateY(-3px); box-shadow:0 12px 28px var(--shadow); border-color:var(--accent);}
+  .drawer .num{font-family:'Inter', sans-serif; font-weight:600; font-size:11px; color:var(--wine); letter-spacing:.04em;}
+  .drawer .name{font-family:'Inter', sans-serif; font-weight:600; font-size:16px; margin-top:6px; line-height:1.2;}
+  .drawer .meta{font-family:'Inter', sans-serif; font-size:11px; color:var(--text-faint); margin-top:8px; display:flex; align-items:center; gap:5px;}
+  .drawer .meta .live-dot{width:6px;height:6px;border-radius:50%; background:#5FAE6E; display:inline-block;}
+  .drawer.locked{opacity:.42; cursor:default;}
   .drawer.locked:hover{transform:none; box-shadow:none; border-color:var(--line);}
 
   .cards{display:flex; flex-direction:column; gap:8px;}
   .card{
-    background:var(--card); padding:14px 16px; display:grid;
-    grid-template-columns:36px 30px 78px 1fr auto; gap:14px; align-items:center;
-    border:1px solid var(--line); border-radius:12px; color:var(--ink);
-    transition:box-shadow .15s ease, border-color .15s ease;
+    background:var(--surface); padding:14px 16px; display:grid;
+    grid-template-columns:30px 78px 1fr auto; gap:14px; align-items:center;
+    border:1px solid var(--line); border-radius:var(--radius-md); color:var(--text); text-decoration:none;
+    transition:box-shadow .15s ease, border-color .15s ease, transform .15s ease;
   }
-  .card:hover{box-shadow:0 8px 20px rgba(21,18,13,0.07); border-color:var(--brass);}
+  .card:hover{box-shadow:0 10px 26px var(--shadow); border-color:var(--accent); transform:translateY(-1px);}
   .card .stamp{
-    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--wine);
-    background:rgba(122,46,46,0.07); border-radius:6px; padding:5px 6px; text-align:center;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:10.5px; color:var(--wine);
+    background:rgba(227,139,108,0.1); border-radius:6px; padding:5px 6px; text-align:center;
     letter-spacing:.02em; line-height:1.3;
   }
-  .card .title{font-family:'Source Serif 4', serif; font-size:16px; font-weight:500;}
-  .card .path{font-family:'IBM Plex Mono', monospace; font-size:11px; color:rgba(21,18,13,0.42); margin-top:4px;}
-  .card .go{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--brass); white-space:nowrap; text-decoration:none;}
-  .empty{padding:32px 18px; font-family:'IBM Plex Mono', monospace; font-size:13px; color:rgba(21,18,13,0.5); background:var(--card); border:1px dashed var(--line); border-radius:12px;}
+  .card .title{font-family:'Inter', sans-serif; font-weight:500; font-size:15.5px;}
+  .card .path{font-family:'Inter', sans-serif; font-size:11.5px; color:var(--text-faint); margin-top:4px;}
+  .card .go{font-family:'Inter', sans-serif; font-size:11px; color:var(--accent); white-space:nowrap; text-decoration:none;}
+  .empty{padding:32px 18px; font-family:'Inter', sans-serif; font-size:13px; color:var(--text-faint); background:var(--surface); border:1px dashed var(--line); border-radius:var(--radius-md);}
 
-  footer{border-top:1px solid var(--line); padding:30px 0 50px; font-size:12.5px; color:rgba(21,18,13,0.5); line-height:1.6;}
-  footer a{color:var(--wine);}
+  footer{border-top:1px solid var(--line); padding:32px 0 56px; font-size:12.5px; color:var(--text-faint); line-height:1.6;}
+  footer a{color:var(--accent);}
 
-  #back-btn{display:none; margin-bottom:16px; background:none; border:none; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--wine); cursor:pointer; padding:0;}
-
-  @media (max-width:560px){
-    .card{grid-template-columns:32px 26px 1fr auto; }
-    .card .stamp{display:none;}
-    .search-box{width:100%; order:3;}
-    .search-kbd{display:none;}
-  }
-
-  /* ---- Playback (sign-in + mini-player) ---- */
-  .signin-badge{
-    display:flex; align-items:center; gap:8px; padding:6px 12px; border-radius:20px;
-    background:var(--card); border:1px solid var(--line); cursor:pointer;
-    font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--ink); white-space:nowrap;
-    transition:border-color .15s ease;
-  }
-  .signin-badge:hover{border-color:var(--brass);}
-  .signin-badge.signed-in{color:var(--brass); border-color:rgba(207,160,90,0.4);}
-  .play-all-btn{
-    display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px;
-    background:var(--ink); color:var(--parchment); border:none; cursor:pointer;
-    font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:.03em;
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .play-all-btn:hover{transform:translateY(-1px); box-shadow:0 8px 18px rgba(21,18,13,0.2);}
-  .play-all-btn:disabled{opacity:.4; cursor:not-allowed; transform:none; box-shadow:none;}
-  .card-play{
-    flex-shrink:0; width:30px; height:30px; border-radius:50%; border:1px solid var(--line);
-    background:var(--card); display:flex; align-items:center; justify-content:center; cursor:pointer;
-    transition:background .15s ease, border-color .15s ease;
-  }
-  .card-play:hover{border-color:var(--brass); background:var(--brass-dim);}
-  .card-play.playing{background:var(--wine); border-color:var(--wine);}
-  .card-play.playing svg{fill:#fff; stroke:#fff;}
-  .card.now-playing{border-color:var(--brass); box-shadow:0 0 0 2px var(--brass-dim);}
-
-  #mini-player{
-    position:fixed; left:0; right:0; bottom:0; z-index:80;
-    background:var(--ink); color:var(--parchment);
-    display:none; align-items:center; gap:14px; padding:12px 22px;
-    box-shadow:0 -8px 24px rgba(21,18,13,0.25);
-  }
-  #mini-player.open{display:flex;}
-  #mini-player .mp-btn{
-    background:none; border:1px solid rgba(245,240,227,0.3); color:var(--parchment); border-radius:50%;
-    width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
-  }
-  #mini-player .mp-btn:hover{border-color:var(--brass);}
-  #mini-player .mp-info{min-width:0; flex-shrink:1;}
-  #mini-player .mp-title{font-family:'Source Serif 4', serif; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  #mini-player .mp-sub{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(245,240,227,0.55); margin-top:2px;}
-  #mini-player audio{flex:1; min-width:120px; height:32px;}
-  #mini-player .mp-close{margin-left:auto; background:none; border:none; color:rgba(245,240,227,0.5); cursor:pointer; font-size:18px; flex-shrink:0;}
-  @media (max-width:640px){
-    #mini-player{flex-wrap:wrap; padding:10px 14px;}
-    #mini-player audio{order:3; width:100%;}
-  }
-
-  /* ---- Theme toggle ---- */
-  .theme-toggle{
-    width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--card);
-    color:var(--ink); cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center;
-    transition:border-color .15s ease, transform .15s ease;
-  }
-  .theme-toggle:hover{border-color:var(--brass); transform:translateY(-1px);}
-
-  /* ---- Stats bar ---- */
-  .stats-bar{display:flex; gap:28px; flex-wrap:wrap; margin:22px 0 6px;}
-  .stat-item{font-family:'IBM Plex Mono', monospace;}
-  .stat-num{font-family:'Fraunces', serif; font-size:26px; font-weight:600; color:var(--wine); line-height:1;}
-  .stat-label{font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:rgba(21,18,13,0.5); margin-top:3px;}
-
-  /* ---- Recently played ---- */
-  .recent-played-wrap{margin-top:26px;}
-  .recent-played{display:flex; gap:12px; overflow-x:auto; padding-bottom:4px; scrollbar-width:thin;}
-  .recent-card{
-    flex-shrink:0; width:200px; background:var(--card); border:1px solid var(--line); border-radius:12px;
-    padding:12px 14px; cursor:pointer; transition:border-color .15s ease, transform .15s ease;
-  }
-  .recent-card:hover{border-color:var(--brass); transform:translateY(-2px);}
-  .recent-card .rc-title{font-family:'Source Serif 4', serif; font-size:13.5px; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-  .recent-card .rc-sub{font-family:'IBM Plex Mono', monospace; font-size:10px; color:rgba(21,18,13,0.5); margin-top:4px;}
+  #back-btn{display:none; margin-bottom:16px; background:none; border:none; font-family:'Inter', sans-serif; font-size:12px; color:var(--accent); cursor:pointer; padding:0;}
 
   /* ---- Sort / filter bar ---- */
-  .sort-bar{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:10px 0 16px;}
+  .sort-bar{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin:12px 0 18px;}
   .sort-bar select{
-    font-family:'IBM Plex Mono', monospace; font-size:11.5px; padding:6px 10px; border-radius:8px;
-    border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer;
+    font-family:'Inter', sans-serif; font-size:12px; padding:7px 12px; border-radius:var(--radius-sm);
+    border:1px solid var(--line); background:var(--surface); color:var(--text); cursor:pointer;
   }
 
   /* ---- Load more ---- */
   .load-more-btn{
-    display:block; margin:22px auto 0; padding:10px 28px; border-radius:20px; border:1px solid var(--line);
-    background:var(--card); color:var(--ink); font-family:'IBM Plex Mono', monospace; font-size:12px; cursor:pointer;
+    display:block; margin:24px auto 0; padding:11px 30px; border-radius:22px; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); font-family:'Inter', sans-serif; font-size:12.5px; font-weight:500; cursor:pointer;
     transition:border-color .15s ease, background .15s ease;
   }
-  .load-more-btn:hover{border-color:var(--brass); background:var(--brass-dim);}
+  .load-more-btn:hover{border-color:var(--accent); background:var(--accent-dim);}
 
-  /* ---- Toasts ---- */
-  #toast-container{position:fixed; bottom:90px; left:50%; transform:translateX(-50%); z-index:100; display:flex; flex-direction:column; gap:8px; align-items:center;}
-  .toast{
-    background:var(--ink); color:var(--parchment); font-family:'IBM Plex Mono', monospace; font-size:12.5px;
-    padding:10px 18px; border-radius:20px; box-shadow:0 8px 24px rgba(21,18,13,0.25);
-    opacity:0; transform:translateY(8px); transition:opacity .25s ease, transform .25s ease;
-  }
-  .toast.show{opacity:1; transform:translateY(0);}
-
-  /* ---- Mini-player upgrades: progress + speed ---- */
-  #mini-player .mp-progress-wrap{display:flex; align-items:center; gap:8px; flex:2; min-width:140px;}
-  #mini-player .mp-time{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:rgba(245,240,227,0.6); flex-shrink:0; width:34px; text-align:center;}
-  #mini-player .mp-seek{
-    flex:1; height:4px; -webkit-appearance:none; appearance:none; background:rgba(245,240,227,0.25); border-radius:2px; cursor:pointer;
-  }
-  #mini-player .mp-seek::-webkit-slider-thumb{
-    -webkit-appearance:none; width:12px; height:12px; border-radius:50%; background:var(--brass-soft); cursor:pointer;
-  }
-  #mini-player .mp-seek::-moz-range-thumb{width:12px; height:12px; border-radius:50%; background:var(--brass-soft); border:none; cursor:pointer;}
-  #mini-player .mp-speed{
-    background:rgba(245,240,227,0.08); border:1px solid rgba(245,240,227,0.25); color:var(--parchment);
-    font-family:'IBM Plex Mono', monospace; font-size:11px; border-radius:6px; padding:4px 6px; cursor:pointer; flex-shrink:0;
-  }
-  #mini-player .mp-speed option{color:#000;}
-  @media (max-width:640px){
-    #mini-player .mp-progress-wrap{order:3; width:100%; flex-basis:100%;}
+  @media (max-width:560px){
+    .card{grid-template-columns:26px 1fr auto; }
+    .card .stamp{display:none;}
+    .search-box{width:100%; order:3;}
+    .search-kbd{display:none;}
   }
 </style>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <div class="topbar">
@@ -403,7 +317,6 @@
       </div>
       <div class="search-dropdown" id="search-dropdown"></div>
     </div>
-    <div class="signin-badge" id="signin-badge">Sign in to play shiurim</div>
     <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">&#9788;</button>
   </div>
 </div>
@@ -412,14 +325,7 @@
   <header>
     <p class="eyebrow">JK Shiurim Library</p>
     <h1>Find the shiur you're looking for.</h1>
-    <p class="sub">Browse by rabbi or by topic, search by date or subject. Every shiur links straight to the real file on Drive.</p>
-
-    <div class="stats-bar" id="stats-bar"></div>
-
-    <div class="recent-played-wrap" id="recent-played-wrap" style="display:none;">
-      <div class="today-topline"><h2>Continue listening</h2></div>
-      <div class="recent-played" id="recent-played"></div>
-    </div>
+    <p class="sub">Browse by rabbi or by topic, search by date or subject. Every shiur opens the real file on Drive.</p>
 
     <div class="today-wrap">
       <div class="today-topline">
@@ -429,7 +335,9 @@
           <button class="day-btn" id="carousel-next" title="Scroll forward">&rarr;</button>
         </div>
       </div>
-      <div class="carousel" id="carousel"></div>
+      <div class="carousel-3d-wrap">
+        <div class="carousel" id="carousel"></div>
+      </div>
     </div>
 
     <div class="suggest-wrap" id="suggest-wrap"></div>
@@ -466,7 +374,6 @@
     <div class="section-head">
       <h2 id="results-title">All indexed shiurim</h2>
       <span class="count" id="results-count"></span>
-      <button class="play-all-btn" id="play-all-btn">&#9654; Play all</button>
     </div>
     <div class="sort-bar">
       <select id="sort-select">
@@ -484,33 +391,6 @@
   <footer>
     <p>Data pulled from Google Drive · <a href="https://drive.google.com/drive/folders/1Ak11ASHdS-5Whzt7Rl7mVpzMOPOtOb9a" target="_blank">source folder</a>. Every shiur opens the real file on Drive — visitors need their existing Drive access to play it. The library is indexed in stages; more rabbis and topics are added as they're pulled in.</p>
   </footer>
-</div>
-
-<div id="toast-container"></div>
-
-<div id="mini-player">
-  <button class="mp-btn" id="mp-prev" title="Previous">&#9664;&#9664;</button>
-  <button class="mp-btn" id="mp-toggle" title="Play/Pause">&#9654;</button>
-  <button class="mp-btn" id="mp-next" title="Next">&#9654;&#9654;</button>
-  <div class="mp-info">
-    <div class="mp-title" id="mp-title">Nothing playing</div>
-    <div class="mp-sub" id="mp-sub"></div>
-  </div>
-  <div class="mp-progress-wrap">
-    <span class="mp-time" id="mp-current">0:00</span>
-    <input type="range" class="mp-seek" id="mp-seek" min="0" max="100" value="0" step="0.1">
-    <span class="mp-time" id="mp-duration">0:00</span>
-  </div>
-  <select class="mp-speed" id="mp-speed" title="Playback speed">
-    <option value="0.75">0.75&times;</option>
-    <option value="1" selected>1&times;</option>
-    <option value="1.25">1.25&times;</option>
-    <option value="1.5">1.5&times;</option>
-    <option value="1.75">1.75&times;</option>
-    <option value="2">2&times;</option>
-  </select>
-  <audio id="mp-audio" style="display:none;"></audio>
-  <button class="mp-close" id="mp-close" title="Close player">&times;</button>
 </div>
 
 <script>
@@ -590,14 +470,8 @@ const ROSHEI_DATA = [
 // Paste your Apps Script web app URL here once jk-indexer.gs is deployed
 // (Deploy -> New deployment -> Web app -> copy the URL ending in /exec).
 // Leave blank to keep using the hand-indexed list below.
-const API_URL = 'https://script.google.com/macros/s/AKfycbxl0fkILIsqckGiE5y8ZLYPFyIk1FQpE0YPVpcCp5hUOs7rRyEY6zGInA0-CPGpL3nJYQ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzaL0UmoX5mtIAlWKl9ZwRsWwN11l1algYO8IeY2IzZmyxa-7IcxM6vkb5kD5_LtBzXmQ/exec';
 
-// Paste your Google Cloud OAuth Client ID here to enable in-page playback
-// (sign in with a Google account that already has Drive view access).
-// See the setup instructions given alongside this file. Leave blank to
-// keep playback disabled (shiurim still open normally via Drive links).
-const GOOGLE_CLIENT_ID = '892720111709-giv1kfhocc5ceadn3dhltbkr3gdibmb2.apps.googleusercontent.com';
-const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 
 let shiurim = STATIC_FALLBACK.concat(ROSHEI_DATA);
 
@@ -616,19 +490,6 @@ const topics = [
   {num:"—", name:"Guest Speakers"},
 ];
 
-const rabbis = [
-  "R' Yitzchok Berkovits (Main Shiurim Library)",
-  "R' Dovid Steinhauer",
-  "R' Benjy Goldberg",
-  "R' Gabi Kruskal",
-  "R' Binyomin Feldman",
-  "R' Yossi Stilerman",
-  "R' Mati Freidman",
-  "R' Aryeh Leib Richter",
-  "R’ Elbaz",
-  "R' Gershon Bertman",
-  "R' Shalom Zagelbaum",
-];
 function rabbiKey(displayName){ return displayName.split(' (')[0]; }
 
 // ============================================================
@@ -693,6 +554,33 @@ document.getElementById('carousel-next').addEventListener('click', () => {
   document.getElementById('carousel').scrollBy({left: 320, behavior:'smooth'});
 });
 
+// ---- 3D coverflow effect: cards tilt/scale/fade based on distance from center ----
+function update3DCarousel(){
+  const carousel = document.getElementById('carousel');
+  if (!carousel) return;
+  const rect = carousel.getBoundingClientRect();
+  const center = rect.left + rect.width / 2;
+  carousel.querySelectorAll('.day-card').forEach(card => {
+    const cardRect = card.getBoundingClientRect();
+    const cardCenter = cardRect.left + cardRect.width / 2;
+    const dist = Math.max(-1, Math.min(1, (cardCenter - center) / (rect.width / 2)));
+    const rotateY = dist * -22;
+    const scale = 1 - Math.abs(dist) * 0.16;
+    const opacity = 1 - Math.abs(dist) * 0.5;
+    const translateZ = -Math.abs(dist) * 90;
+    card.style.transform = `rotateY(${rotateY}deg) scale(${scale}) translateZ(${translateZ}px)`;
+    card.style.opacity = opacity;
+  });
+}
+let carousel3DTicking = false;
+function schedule3DUpdate(){
+  if (carousel3DTicking) return;
+  carousel3DTicking = true;
+  requestAnimationFrame(() => { update3DCarousel(); carousel3DTicking = false; });
+}
+document.getElementById('carousel').addEventListener('scroll', schedule3DUpdate);
+window.addEventListener('resize', schedule3DUpdate);
+
 // ---- Rabbis / Topics / Cards / Search ----
 const drawersEl = document.getElementById('drawers');
 const rabbisEl = document.getElementById('rabbis');
@@ -711,24 +599,42 @@ const PAGE_SIZE = 30;
 function countForTopic(name){ return shiurim.filter(s => s.topic === name).length; }
 function countForRabbi(name){ return shiurim.filter(s => s.speaker === name).length; }
 
-function renderRabbis(){
-  rabbisEl.innerHTML = '';
-  let liveCount = 0;
-  rabbis.forEach(display => {
-    const key = rabbiKey(display);
-    const c = countForRabbi(key);
-    if (c > 0) liveCount++;
-    const div = document.createElement('div');
-    div.className = 'rabbi-card' + (c === 0 ? ' locked' : '');
-    div.innerHTML = `${avatarHTML(key)}
-      <div>
-        <div class="name">${display}</div>
-        <div class="meta">${c > 0 ? `<span class="live-dot"></span>${c} shiurim indexed` : 'not indexed yet'}</div>
-      </div>`;
-    if (c > 0) div.addEventListener('click', () => filterBySpeaker(key));
-    rabbisEl.appendChild(div);
+const RABBI_SHOW_COUNT = 12;
+let rabbisExpanded = false;
+
+function getRabbiSummaries(){
+  const map = new Map();
+  shiurim.forEach(s => {
+    if (!s.speaker) return;
+    const cur = map.get(s.speaker) || { name: s.speaker, count: 0, lastDate: '' };
+    cur.count++;
+    if ((s.date || '') > cur.lastDate) cur.lastDate = s.date || '';
+    map.set(s.speaker, cur);
   });
-  document.getElementById('rabbi-count').textContent = liveCount + ' of ' + rabbis.length + ' rabbis live';
+  return [...map.values()];
+}
+
+function renderRabbis(){
+  const all = getRabbiSummaries().sort((a, b) => (b.lastDate || '').localeCompare(a.lastDate || '') || b.count - a.count);
+  const shown = rabbisExpanded ? all : all.slice(0, RABBI_SHOW_COUNT);
+  rabbisEl.innerHTML = shown.map(r => `
+    <div class="rabbi-card" data-name="${encodeURIComponent(r.name)}">
+      ${avatarHTML(r.name)}
+      <div>
+        <div class="name">${r.name}</div>
+        <div class="meta"><span class="live-dot"></span>${r.count} ${r.count === 1 ? 'shiur' : 'shiurim'} indexed</div>
+      </div>
+    </div>
+  `).join('');
+  if (all.length > RABBI_SHOW_COUNT){
+    rabbisEl.insertAdjacentHTML('beforeend', `<button class="show-more-btn" id="rabbis-toggle">${rabbisExpanded ? 'Show fewer' : `Show all ${all.length} rabbis`}</button>`);
+  }
+  rabbisEl.querySelectorAll('.rabbi-card').forEach(card => {
+    card.addEventListener('click', () => filterBySpeaker(decodeURIComponent(card.dataset.name)));
+  });
+  const toggle = document.getElementById('rabbis-toggle');
+  if (toggle) toggle.addEventListener('click', () => { rabbisExpanded = !rabbisExpanded; renderRabbis(); });
+  document.getElementById('rabbi-count').textContent = all.length + ' rabbis indexed';
 }
 
 function renderDrawers(){
@@ -792,42 +698,29 @@ function sortList(list){
   return sorted;
 }
 
-function cardHTML(s, i){
+function cardHTML(s){
   return `
-    <div class="card" data-idx="${i}">
-      <button class="card-play" data-idx="${i}" title="Play">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-      </button>
+    <a class="card" href="${s.url}" target="_blank" rel="noopener">
       <div class="stamp">${fmtStamp(s.date)}</div>
       ${avatarHTML(s.speaker)}
       <div>
         <div class="title">${s.title}</div>
         <div class="path">${s.topic}${s.subtopic ? ' / ' + s.subtopic : ''} &middot; ${s.speaker}</div>
       </div>
-      <a class="go" href="${s.url}" target="_blank" rel="noopener">open &#8599;</a>
-    </div>
+      <span class="go">open &#8599;</span>
+    </a>
   `;
 }
 
 function appendCardBatch(){
   const nextBatch = currentList.slice(renderedCount, renderedCount + PAGE_SIZE);
-  cardsEl.insertAdjacentHTML('beforeend', nextBatch.map((s, j) => cardHTML(s, renderedCount + j)).join(''));
+  cardsEl.insertAdjacentHTML('beforeend', nextBatch.map(s => cardHTML(s)).join(''));
   renderedCount += nextBatch.length;
   const remaining = currentList.length - renderedCount;
   loadMoreBtn.style.display = remaining > 0 ? 'block' : 'none';
   if (remaining > 0) loadMoreBtn.textContent = `Load more (${remaining} remaining)`;
 }
 loadMoreBtn.addEventListener('click', appendCardBatch);
-
-// Single delegated listener handles play buttons for every card ever
-// rendered, including ones added later via "Load more" — no re-wiring needed.
-cardsEl.addEventListener('click', (e) => {
-  const btn = e.target.closest('.card-play');
-  if (!btn) return;
-  e.preventDefault();
-  playQueue = currentList;
-  playAt(parseInt(btn.dataset.idx, 10));
-});
 
 function renderCards(list){
   currentList = sortList(list);
@@ -1065,178 +958,6 @@ function renderSuggestions(){
   });
 }
 
-// ---- Playback: Google sign-in + continuous queue ----
-const signinBadge = document.getElementById('signin-badge');
-const playAllBtn = document.getElementById('play-all-btn');
-const miniPlayer = document.getElementById('mini-player');
-const mpAudio = document.getElementById('mp-audio');
-const mpTitle = document.getElementById('mp-title');
-const mpSub = document.getElementById('mp-sub');
-const mpToggle = document.getElementById('mp-toggle');
-const mpPrev = document.getElementById('mp-prev');
-const mpNext = document.getElementById('mp-next');
-const mpClose = document.getElementById('mp-close');
-const mpSeek = document.getElementById('mp-seek');
-const mpCurrent = document.getElementById('mp-current');
-const mpDuration = document.getElementById('mp-duration');
-const mpSpeed = document.getElementById('mp-speed');
-
-let accessToken = sessionStorage.getItem('jk_drive_token') || null;
-let tokenClient = null;
-let playQueue = [];
-let playIndex = -1;
-let currentBlobUrl = null;
-
-function driveFileId(url){
-  const m = (url || '').match(/\/d\/([^/]+)/);
-  return m ? m[1] : null;
-}
-
-function updateSigninUI(){
-  if (accessToken){
-    signinBadge.textContent = '✓ Signed in — ready to play';
-    signinBadge.classList.add('signed-in');
-    playAllBtn.disabled = false;
-  } else {
-    signinBadge.textContent = 'Sign in to play shiurim';
-    signinBadge.classList.remove('signed-in');
-    playAllBtn.disabled = !GOOGLE_CLIENT_ID; // stays enabled if configured, sign-in happens on first play
-  }
-}
-
-function ensureTokenClient(){
-  if (tokenClient || !window.google || !GOOGLE_CLIENT_ID) return tokenClient;
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: GOOGLE_CLIENT_ID,
-    scope: DRIVE_SCOPE,
-    callback: (resp) => {
-      if (resp && resp.access_token){
-        accessToken = resp.access_token;
-        sessionStorage.setItem('jk_drive_token', accessToken);
-        updateSigninUI();
-        if (pendingPlayAfterSignin !== null){
-          const idx = pendingPlayAfterSignin;
-          pendingPlayAfterSignin = null;
-          playAt(idx);
-        }
-      }
-    }
-  });
-  return tokenClient;
-}
-
-let pendingPlayAfterSignin = null;
-
-function requestSignIn(thenPlayIndex){
-  if (!GOOGLE_CLIENT_ID){
-    showToast("Playback isn't set up yet on this site — ask whoever maintains it to add a Google OAuth Client ID.");
-    return;
-  }
-  pendingPlayAfterSignin = (thenPlayIndex === undefined ? null : thenPlayIndex);
-  const client = ensureTokenClient();
-  if (client) client.requestAccessToken({ prompt: accessToken ? '' : 'consent' });
-}
-
-signinBadge.addEventListener('click', () => {
-  if (!accessToken) requestSignIn();
-});
-
-function openMiniPlayer(){ miniPlayer.classList.add('open'); }
-function closeMiniPlayer(){
-  miniPlayer.classList.remove('open');
-  mpAudio.pause();
-  mpAudio.src = '';
-  playQueue = []; playIndex = -1;
-  document.querySelectorAll('.card-play.playing').forEach(b => b.classList.remove('playing'));
-  document.querySelectorAll('.card.now-playing').forEach(c => c.classList.remove('now-playing'));
-}
-mpClose.addEventListener('click', closeMiniPlayer);
-mpToggle.addEventListener('click', () => {
-  if (mpAudio.paused) mpAudio.play(); else mpAudio.pause();
-});
-mpPrev.addEventListener('click', () => playAt(playIndex - 1));
-mpNext.addEventListener('click', () => playAt(playIndex + 1));
-mpAudio.addEventListener('play', () => { mpToggle.innerHTML = '&#10074;&#10074;'; });
-mpAudio.addEventListener('pause', () => { mpToggle.innerHTML = '&#9654;'; });
-mpAudio.addEventListener('ended', () => playAt(playIndex + 1));
-
-function setPlayingCardUI(){
-  document.querySelectorAll('.card-play').forEach(b => b.classList.remove('playing'));
-  document.querySelectorAll('.card').forEach(c => c.classList.remove('now-playing'));
-  const btn = document.querySelector(`.card-play[data-idx="${playIndex}"]`);
-  if (btn){
-    btn.classList.add('playing');
-    btn.closest('.card').classList.add('now-playing');
-  }
-}
-
-function playAt(index){
-  if (!playQueue.length || index < 0 || index >= playQueue.length){
-    if (index >= playQueue.length) closeMiniPlayer();
-    return;
-  }
-  if (!accessToken){
-    requestSignIn(index);
-    return;
-  }
-  playIndex = index;
-  const s = playQueue[index];
-  const fileId = driveFileId(s.url);
-  if (!fileId){ playAt(index + 1); return; } // skip anything without a usable Drive link
-
-  openMiniPlayer();
-  mpTitle.textContent = s.title;
-  mpSub.textContent = 'by ' + (s.speaker || 'Unknown') + (playQueue.length > 1 ? ` · ${index + 1} of ${playQueue.length}` : '');
-  mpSeek.value = 0;
-  mpCurrent.textContent = '0:00';
-  mpDuration.textContent = '0:00';
-  setPlayingCardUI();
-  addToRecentlyPlayed(s);
-
-  fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
-    headers: { Authorization: 'Bearer ' + accessToken }
-  }).then(r => {
-    if (r.status === 401){
-      // token expired — clear it and ask to sign in again, then resume here
-      accessToken = null;
-      sessionStorage.removeItem('jk_drive_token');
-      updateSigninUI();
-      requestSignIn(index);
-      return null;
-    }
-    if (!r.ok) throw new Error('fetch failed: ' + r.status);
-    return r.blob();
-  }).then(blob => {
-    if (!blob) return; // handled above (401 re-auth flow)
-    if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
-    currentBlobUrl = URL.createObjectURL(blob);
-    mpAudio.src = currentBlobUrl;
-    mpAudio.play().catch(() => {});
-  }).catch(err => {
-    console.warn('Could not play', s.title, err);
-    playAt(index + 1); // skip a broken/unavailable file rather than stall the whole queue
-  });
-}
-
-playAllBtn.addEventListener('click', () => {
-  if (!currentList.length) return;
-  playQueue = currentList;
-  playAt(0);
-});
-
-updateSigninUI();
-
-// ---- Toasts ----
-function showToast(msg){
-  const container = document.getElementById('toast-container');
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.textContent = msg;
-  container.appendChild(t);
-  requestAnimationFrame(() => t.classList.add('show'));
-  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3200);
-}
-
 // ---- Theme toggle ----
 const themeToggle = document.getElementById('theme-toggle');
 function applyTheme(theme){
@@ -1244,78 +965,14 @@ function applyTheme(theme){
   themeToggle.innerHTML = theme === 'dark' ? '&#9789;' : '&#9788;';
   localStorage.setItem('jk_theme', theme);
 }
-applyTheme(localStorage.getItem('jk_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+applyTheme(localStorage.getItem('jk_theme') || 'dark');
 themeToggle.addEventListener('click', () => {
-  applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
 });
-
-// ---- Stats bar ----
-function renderStats(){
-  const totalRabbis = new Set(shiurim.map(s => s.speaker).filter(Boolean)).size;
-  const totalTopics = new Set(shiurim.map(s => s.topic).filter(Boolean)).size;
-  document.getElementById('stats-bar').innerHTML = `
-    <div class="stat-item"><div class="stat-num">${shiurim.length.toLocaleString()}</div><div class="stat-label">Shiurim indexed</div></div>
-    <div class="stat-item"><div class="stat-num">${totalRabbis}</div><div class="stat-label">Rabbis</div></div>
-    <div class="stat-item"><div class="stat-num">${totalTopics}</div><div class="stat-label">Topics</div></div>
-  `;
-}
-
-// ---- Recently played (local to this browser) ----
-const RECENT_KEY = 'jk_recent_played';
-function getRecentlyPlayed(){
-  try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch(e){ return []; }
-}
-function addToRecentlyPlayed(s){
-  let list = getRecentlyPlayed().filter(r => r.url !== s.url);
-  list.unshift({ title: s.title, speaker: s.speaker, url: s.url });
-  localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, 10)));
-  renderRecentlyPlayed();
-}
-function renderRecentlyPlayed(){
-  const list = getRecentlyPlayed();
-  const wrap = document.getElementById('recent-played-wrap');
-  if (!list.length){ wrap.style.display = 'none'; return; }
-  wrap.style.display = 'block';
-  document.getElementById('recent-played').innerHTML = list.map(s => `
-    <div class="recent-card" data-url="${encodeURIComponent(s.url)}">
-      <div class="rc-title">${s.title}</div>
-      <div class="rc-sub">${s.speaker || ''}</div>
-    </div>
-  `).join('');
-  document.querySelectorAll('.recent-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const url = decodeURIComponent(card.dataset.url);
-      const match = shiurim.find(s => s.url === url);
-      if (match){ playQueue = [match]; playAt(0); }
-    });
-  });
-}
-
-// ---- Mini-player: scrubber, time display, speed ----
-function fmtTime(sec){
-  if (!isFinite(sec) || sec < 0) return '0:00';
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60).toString().padStart(2, '0');
-  return `${m}:${s}`;
-}
-let seeking = false;
-mpAudio.addEventListener('loadedmetadata', () => {
-  mpDuration.textContent = fmtTime(mpAudio.duration);
-  mpSeek.max = mpAudio.duration || 0;
-});
-mpAudio.addEventListener('timeupdate', () => {
-  if (seeking) return;
-  mpSeek.value = mpAudio.currentTime;
-  mpCurrent.textContent = fmtTime(mpAudio.currentTime);
-});
-mpSeek.addEventListener('input', () => { seeking = true; mpCurrent.textContent = fmtTime(mpSeek.value); });
-mpSeek.addEventListener('change', () => { mpAudio.currentTime = parseFloat(mpSeek.value); seeking = false; });
-mpSpeed.addEventListener('change', () => { mpAudio.playbackRate = parseFloat(mpSpeed.value); });
 
 function init(){
-  renderStats();
-  renderRecentlyPlayed();
   renderCarousel();
+  schedule3DUpdate();
   renderSuggestions();
   renderRabbis();
   renderDrawers();
