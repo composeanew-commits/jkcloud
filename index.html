@@ -170,11 +170,18 @@
   .day-card .ddate{font-family:'Fraunces', serif; font-weight:600; font-size:18px; margin-top:3px; position:relative;}
   .day-card .dcount{font-family:'Inter', sans-serif; font-size:10.5px; color:var(--text-faint); margin-top:2px; position:relative;}
   .day-card .ditems{margin-top:14px; position:relative;}
-  .day-item{
-    display:flex; align-items:center; gap:10px; padding:8px 0;
-    border-top:1px solid var(--line);
+  .day-group-speaker{
+    display:flex; align-items:center; gap:8px; margin-top:14px; padding-top:12px; border-top:1px solid var(--line);
+    font-family:'Inter', sans-serif; font-weight:600; font-size:12.5px; position:relative;
   }
-  .day-item:first-child{border-top:none;}
+  .day-group-speaker:first-child{margin-top:0; padding-top:0; border-top:none;}
+  .day-group-topic{
+    font-family:'Inter', sans-serif; font-weight:600; font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); margin:8px 0 2px 38px; position:relative;
+  }
+  .day-item{
+    display:flex; align-items:center; gap:10px; padding:6px 0 6px 38px;
+  }
   .day-item a{text-decoration:none; display:flex; align-items:center; gap:10px; width:100%;}
   .day-item .dt-title{font-family:'Inter', sans-serif; font-weight:500; font-size:13.5px; line-height:1.25; color:var(--text);}
   .day-item .dt-sub{font-family:'Inter', sans-serif; font-size:10px; color:var(--text-faint); margin-top:1px;}
@@ -466,7 +473,7 @@
     <option value="1.25">1.25&times;</option>
     <option value="1.5">1.5&times;</option>
     <option value="1.75">1.75&times;</option>
-    <option value="2">2&times;</option>
+    <option value="2" selected>2&times;</option>
   </select>
   <audio id="mp-audio" style="display:none;"></audio>
   <button class="mp-close" id="mp-close" title="Close player">&times;</button>
@@ -580,12 +587,16 @@ function renderCarousel(){
   const el = document.getElementById('carousel');
   const today = new Date(); today.setHours(0,0,0,0);
   const todayISO = isoDate(today);
+  const yestISO = (() => { const y = new Date(today); y.setDate(y.getDate()-1); return isoDate(y); })();
+
+  // Every distinct date that actually has an indexed shiur, most recent first —
+  // no artificial cutoff, so you can scroll all the way back through the archive.
+  const datesWithData = [...new Set(shiurim.map(s => s.date).filter(Boolean))].sort((a, b) => b.localeCompare(a));
+
   let html = '';
-  for (let i = 0; i < 14; i++){
-    const d = new Date(today); d.setDate(d.getDate() - i);
-    const dISO = isoDate(d);
+  datesWithData.forEach(dISO => {
     const isToday = dISO === todayISO;
-    const yestISO = (() => { const y = new Date(today); y.setDate(y.getDate()-1); return isoDate(y); })();
+    const d = new Date(dISO + 'T00:00:00');
     let label = d.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
     if (isToday) label = 'Today';
     else if (dISO === yestISO) label = 'Yesterday';
@@ -593,25 +604,35 @@ function renderCarousel(){
     html += `<div class="day-card${isToday ? ' is-today' : ''}">
       <div class="dlabel">${isToday ? 'Today' : label}</div>
       <div class="ddate">${d.toLocaleDateString('en-US',{month:'long', day:'numeric', year:'numeric'})}</div>
-      <div class="dcount">${matches.length ? matches.length + (matches.length===1?' shiur':' shiurim') : 'nothing indexed'}</div>
+      <div class="dcount">${matches.length + (matches.length===1?' shiur':' shiurim')}</div>
       <div class="ditems">`;
-    if (!matches.length){
-      html += `<div class="day-empty">No shiur indexed for this date yet.</div>`;
-    } else {
-      matches.forEach(s => {
-        html += `<div class="day-item"><a href="${s.url}" target="_blank" rel="noopener">
-          ${avatarHTML(s.speaker)}
-          <div>
-            <div class="dt-title">${s.title}</div>
-            <div class="dt-sub">${s.topic}${s.subtopic ? ' / ' + s.subtopic : ''}</div>
-          </div>
-          <span class="go-dot">&#8599;</span>
-        </a></div>`;
+    const bySpeaker = new Map();
+    matches.forEach(s => {
+      const sp = s.speaker || 'Unknown';
+      if (!bySpeaker.has(sp)) bySpeaker.set(sp, new Map());
+      const byTopic = bySpeaker.get(sp);
+      const tp = s.topic || 'Uncategorized';
+      if (!byTopic.has(tp)) byTopic.set(tp, []);
+      byTopic.get(tp).push(s);
+    });
+    [...bySpeaker.entries()].forEach(([speaker, byTopic]) => {
+      html += `<div class="day-group-speaker">${avatarHTML(speaker)}<span>${speaker}</span></div>`;
+      [...byTopic.entries()].forEach(([topic, list]) => {
+        html += `<div class="day-group-topic">${topic}</div>`;
+        list.forEach(s => {
+          html += `<div class="day-item"><a href="${s.url}" target="_blank" rel="noopener">
+            <div>
+              <div class="dt-title">${s.title}</div>
+              ${s.subtopic ? `<div class="dt-sub">${s.subtopic}</div>` : ''}
+            </div>
+            <span class="go-dot">&#8599;</span>
+          </a></div>`;
+        });
       });
-    }
+    });
     html += `</div></div>`;
-  }
-  el.innerHTML = html;
+  });
+  el.innerHTML = html || `<div class="day-empty">No shiurim indexed yet.</div>`;
 }
 document.getElementById('carousel-prev').addEventListener('click', () => {
   document.getElementById('carousel').scrollBy({left: -320, behavior:'smooth'});
