@@ -593,15 +593,12 @@ function fmtStamp(d){
 }
 
 // ---- TODAY carousel ----
-function renderCarousel(){
-  const el = document.getElementById('carousel');
-  const today = new Date(); today.setHours(0,0,0,0);
-  const todayISO = isoDate(today);
-  const yestISO = (() => { const y = new Date(today); y.setDate(y.getDate()-1); return isoDate(y); })();
+let carouselByDate = null;
+let carouselDates = [];
+let carouselRendered = 0;
+const CAROUSEL_BATCH = 30;
 
-  // Single pass: date -> speaker -> topic -> [shiurim]. Building this once up
-  // front (instead of re-filtering the whole array per date) is both faster
-  // and removes any chance of a date ever being under-counted.
+function buildCarouselIndex(){
   const byDate = new Map();
   shiurim.forEach(s => {
     if (!s.date) return;
@@ -614,48 +611,81 @@ function renderCarousel(){
     if (!byTopic.has(tp)) byTopic.set(tp, []);
     byTopic.get(tp).push(s);
   });
+  carouselByDate = byDate;
+  carouselDates = [...byDate.keys()].sort((a, b) => b.localeCompare(a));
+}
 
-  // Every distinct date that actually has an indexed shiur, most recent first —
-  // no artificial cutoff, so you can scroll all the way back through the archive.
-  const datesWithData = [...byDate.keys()].sort((a, b) => b.localeCompare(a));
-
-  let html = '';
-  datesWithData.forEach(dISO => {
-    const isToday = dISO === todayISO;
-    const d = new Date(dISO + 'T00:00:00');
-    let label = d.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
-    if (isToday) label = 'Today';
-    else if (dISO === yestISO) label = 'Yesterday';
-    const bySpeaker = byDate.get(dISO);
-    const totalCount = [...bySpeaker.values()].reduce((sum, byTopic) => sum + [...byTopic.values()].reduce((s2, l) => s2 + l.length, 0), 0);
-    html += `<div class="day-card${isToday ? ' is-today' : ''}">
-      <div class="dlabel">${isToday ? 'Today' : label}</div>
-      <div class="ddate">${d.toLocaleDateString('en-US',{month:'long', day:'numeric', year:'numeric'})}</div>
-      <div class="dcount">${totalCount + (totalCount===1?' shiur':' shiurim')}${bySpeaker.size > 1 ? ' &middot; ' + bySpeaker.size + ' rebbeim' : ''}</div>
-      <div class="ditems">`;
-    const speakerEntries = [...bySpeaker.entries()];
-    speakerEntries.forEach(([speaker, byTopic], si) => {
-      const speakerCount = [...byTopic.values()].reduce((s2, l) => s2 + l.length, 0);
-      html += `<details class="rebbe-drop"${speakerEntries.length === 1 ? ' open' : ''}>
-        <summary>${avatarHTML(speaker)}<span class="rd-name">${speaker}</span><span class="rd-count">${speakerCount}</span></summary>
-        <div class="rd-body">`;
-      [...byTopic.entries()].forEach(([topic, list]) => {
-        html += `<div class="day-group-topic">${topic}</div>`;
-        list.forEach(s => {
-          html += `<div class="day-item"><a href="${s.url}" target="_blank" rel="noopener">
-            <div>
-              <div class="dt-title">${s.title}</div>
-              ${s.subtopic ? `<div class="dt-sub">${s.subtopic}</div>` : ''}
-            </div>
-            <span class="go-dot">&#8599;</span>
-          </a></div>`;
-        });
+function dayCardHTML(dISO, todayISO, yestISO){
+  const isToday = dISO === todayISO;
+  const d = new Date(dISO + 'T00:00:00');
+  let label = d.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
+  if (isToday) label = 'Today';
+  else if (dISO === yestISO) label = 'Yesterday';
+  const bySpeaker = carouselByDate.get(dISO);
+  const totalCount = [...bySpeaker.values()].reduce((sum, byTopic) => sum + [...byTopic.values()].reduce((s2, l) => s2 + l.length, 0), 0);
+  let html = `<div class="day-card${isToday ? ' is-today' : ''}">
+    <div class="dlabel">${isToday ? 'Today' : label}</div>
+    <div class="ddate">${d.toLocaleDateString('en-US',{month:'long', day:'numeric', year:'numeric'})}</div>
+    <div class="dcount">${totalCount + (totalCount===1?' shiur':' shiurim')}${bySpeaker.size > 1 ? ' &middot; ' + bySpeaker.size + ' rebbeim' : ''}</div>
+    <div class="ditems">`;
+  const speakerEntries = [...bySpeaker.entries()];
+  speakerEntries.forEach(([speaker, byTopic]) => {
+    const speakerCount = [...byTopic.values()].reduce((s2, l) => s2 + l.length, 0);
+    html += `<details class="rebbe-drop"${speakerEntries.length === 1 ? ' open' : ''}>
+      <summary>${avatarHTML(speaker)}<span class="rd-name">${speaker}</span><span class="rd-count">${speakerCount}</span></summary>
+      <div class="rd-body">`;
+    [...byTopic.entries()].forEach(([topic, list]) => {
+      html += `<div class="day-group-topic">${topic}</div>`;
+      list.forEach(s => {
+        html += `<div class="day-item"><a href="${s.url}" target="_blank" rel="noopener">
+          <div>
+            <div class="dt-title">${s.title}</div>
+            ${s.subtopic ? `<div class="dt-sub">${s.subtopic}</div>` : ''}
+          </div>
+          <span class="go-dot">&#8599;</span>
+        </a></div>`;
       });
-      html += `</div></details>`;
     });
-    html += `</div></div>`;
+    html += `</div></details>`;
   });
-  el.innerHTML = html || `<div class="day-empty">No shiurim indexed yet.</div>`;
+  html += `</div></div>`;
+  return html;
+}
+
+function appendCarouselBatch(){
+  const el = document.getElementById('carousel');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayISO = isoDate(today);
+  const yestISO = (() => { const y = new Date(today); y.setDate(y.getDate()-1); return isoDate(y); })();
+  const nextDates = carouselDates.slice(carouselRendered, carouselRendered + CAROUSEL_BATCH);
+  if (!nextDates.length) return;
+  el.insertAdjacentHTML('beforeend', nextDates.map(dISO => dayCardHTML(dISO, todayISO, yestISO)).join(''));
+  carouselRendered += nextDates.length;
+  schedule3DUpdate();
+}
+
+// As you scroll toward the end of what's loaded, quietly load the next batch
+// of older days — this is how you "scan all the way back" without ever
+// building the whole history into the DOM at once (which is what was
+// crashing the page).
+function maybeExtendCarousel(){
+  const el = document.getElementById('carousel');
+  if (!el) return;
+  if (el.scrollLeft + el.clientWidth > el.scrollWidth - 1200){
+    appendCarouselBatch();
+  }
+}
+
+function renderCarousel(){
+  buildCarouselIndex();
+  const el = document.getElementById('carousel');
+  el.innerHTML = '';
+  carouselRendered = 0;
+  if (!carouselDates.length){
+    el.innerHTML = `<div class="day-empty">No shiurim indexed yet.</div>`;
+    return;
+  }
+  appendCarouselBatch();
 }
 document.getElementById('carousel-prev').addEventListener('click', () => {
   document.getElementById('carousel').scrollBy({left: -320, behavior:'smooth'});
@@ -663,6 +693,7 @@ document.getElementById('carousel-prev').addEventListener('click', () => {
 document.getElementById('carousel-next').addEventListener('click', () => {
   document.getElementById('carousel').scrollBy({left: 320, behavior:'smooth'});
 });
+document.getElementById('carousel').addEventListener('scroll', maybeExtendCarousel);
 
 // ---- 3D coverflow effect: cards tilt/scale/fade based on distance from center ----
 function update3DCarousel(){
@@ -1243,7 +1274,7 @@ themeToggle.addEventListener('click', () => {
 });
 
 function init(){
-  const steps = [renderCarousel, schedule3DUpdate, renderSuggestions, renderRabbis, renderDrawers, renderChips, () => renderCards(shiurim)];
+  const steps = [() => renderCards(shiurim), renderChips, renderRabbis, renderDrawers, renderSuggestions, renderCarousel, schedule3DUpdate];
   steps.forEach(fn => {
     try { fn(); } catch (err) { console.error('Render step failed:', fn.name || 'anonymous', err); }
   });
