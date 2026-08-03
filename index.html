@@ -90,7 +90,7 @@
   .search-dropdown{
     position:absolute; top:calc(100% + 8px); left:0; right:0;
     background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-md);
-    box-shadow:0 20px 44px var(--shadow); overflow:hidden; z-index:60; display:none;
+    box-shadow:0 20px 44px var(--shadow); overflow-y:auto; max-height:70vh; z-index:60; display:none;
   }
   .search-dropdown.open{display:block;}
   .sd-item{
@@ -818,6 +818,8 @@ function closeMiniPlayer(){
   prefetchBlobUrl = null; prefetchIndex = -1;
   document.querySelectorAll('.card-play.playing').forEach(b => b.classList.remove('playing'));
   document.querySelectorAll('.card.now-playing').forEach(c => c.classList.remove('now-playing'));
+  const npCard = document.getElementById('now-playing-suggest');
+  if (npCard) npCard.style.display = 'none';
 }
 mpClose.addEventListener('click', closeMiniPlayer);
 mpToggle.addEventListener('click', () => { if (mpAudio.paused) mpAudio.play(); else mpAudio.pause(); });
@@ -839,6 +841,30 @@ mpAudio.addEventListener('timeupdate', () => { if (seeking) return; mpSeek.value
 mpSeek.addEventListener('input', () => { seeking = true; mpCurrent.textContent = fmtTime(mpSeek.value); });
 mpSeek.addEventListener('change', () => { mpAudio.currentTime = parseFloat(mpSeek.value); seeking = false; });
 mpSpeed.addEventListener('change', () => { mpAudio.playbackRate = parseFloat(mpSpeed.value); });
+
+function renderNowPlayingSuggestion(){
+  const card = document.getElementById('now-playing-suggest');
+  if (!card) return;
+  if (playIndex < 0 || !playQueue.length || !playQueue[playIndex]){ card.style.display = 'none'; return; }
+  const current = playQueue[playIndex];
+  const key = current.subtopic || current.topic;
+  if (!key){ card.style.display = 'none'; return; }
+  const related = shiurim.filter(s => s.url !== current.url && (s.subtopic === current.subtopic || s.topic === current.topic));
+  if (!related.length){ card.style.display = 'none'; return; }
+  card.style.display = '';
+  document.getElementById('np-suggest-title').textContent = key;
+  document.getElementById('np-suggest-body').innerHTML = related.slice(0, 5).map(s =>
+    `<div class="suggest-line" data-url="${encodeURIComponent(s.url)}"><span>${s.title}</span><span class="sdate">${s.date||''}</span></div>`
+  ).join('') + (related.length > 5 ? `<div class="suggest-more">+ ${related.length - 5} more</div>` : '');
+  card.querySelectorAll('.suggest-line').forEach(line => {
+    line.style.cursor = 'pointer';
+    line.addEventListener('click', () => {
+      const url = decodeURIComponent(line.dataset.url);
+      const match = shiurim.find(s => s.url === url);
+      if (match){ playQueue = [match, ...related.filter(r => r.url !== url)]; playAt(0); }
+    });
+  });
+}
 
 function setPlayingCardUI(){
   document.querySelectorAll('.card-play').forEach(b => b.classList.remove('playing'));
@@ -864,6 +890,7 @@ function playAt(index){
   mpSub.textContent = 'by ' + (s.speaker || 'Unknown') + (playQueue.length > 1 ? ` · ${index + 1} of ${playQueue.length}` : '');
   mpSeek.value = 0; mpCurrent.textContent = '0:00'; mpDuration.textContent = '0:00';
   setPlayingCardUI();
+  renderNowPlayingSuggestion();
 
   // Already prefetched this exact track (typically because the previous one
   // just ended) — play it immediately with no fetch delay.
@@ -913,6 +940,7 @@ function countForRabbi(name){ return shiurim.filter(s => s.speaker === name).len
 
 const RABBI_SHOW_COUNT = 12;
 let rabbisExpanded = false;
+const PINNED_RABBIS = [REBBE, "R' Dovid Steinhauer", "R' Benjy Goldberg"];
 
 function getRabbiSummaries(){
   const map = new Map();
@@ -928,7 +956,10 @@ function getRabbiSummaries(){
 
 function renderRabbis(){
   const all = getRabbiSummaries().sort((a, b) => (b.lastDate || '').localeCompare(a.lastDate || '') || b.count - a.count);
-  const shown = rabbisExpanded ? all : all.slice(0, RABBI_SHOW_COUNT);
+  const pinned = PINNED_RABBIS.map(name => all.find(r => r.name === name)).filter(Boolean);
+  const pinnedNames = new Set(pinned.map(r => r.name));
+  const rest = all.filter(r => !pinnedNames.has(r.name));
+  const shown = rabbisExpanded ? [...pinned, ...rest] : [...pinned, ...rest.slice(0, Math.max(0, RABBI_SHOW_COUNT - pinned.length))];
   rabbisEl.innerHTML = shown.map(r => `
     <div class="rabbi-card" data-name="${encodeURIComponent(r.name)}">
       ${avatarHTML(r.name)}
@@ -938,7 +969,7 @@ function renderRabbis(){
       </div>
     </div>
   `).join('');
-  if (all.length > RABBI_SHOW_COUNT){
+  if (all.length > shown.length || rabbisExpanded){
     rabbisEl.insertAdjacentHTML('beforeend', `<button class="show-more-btn" id="rabbis-toggle">${rabbisExpanded ? 'Show fewer' : `Show all ${all.length} rabbis`}</button>`);
   }
   rabbisEl.querySelectorAll('.rabbi-card').forEach(card => {
@@ -949,24 +980,28 @@ function renderRabbis(){
   document.getElementById('rabbi-count').textContent = all.length + ' rabbis';
 }
 
-const TOPIC_SHOW_COUNT = 12;
+const TOPIC_SHOW_COUNT = 16;
 let topicsExpanded = false;
 
 function renderDrawers(){
-  const counts = new Map();
+  const todayISO = isoDate(new Date());
+  const stats = new Map(); // topic -> {count, lastDate}
   shiurim.forEach(s => {
     const name = s.topic || 'Uncategorized';
-    counts.set(name, (counts.get(name) || 0) + 1);
+    const cur = stats.get(name) || { count: 0, lastDate: '' };
+    cur.count++;
+    if (s.date && s.date <= todayISO && s.date > cur.lastDate) cur.lastDate = s.date;
+    stats.set(name, cur);
   });
-  const allTopics = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+  const allTopics = [...stats.entries()].sort((a, b) => (b[1].lastDate || '').localeCompare(a[1].lastDate || '') || b[1].count - a[1].count);
   const shown = topicsExpanded ? allTopics : allTopics.slice(0, TOPIC_SHOW_COUNT);
   drawersEl.innerHTML = '';
   document.getElementById('topic-count').textContent = allTopics.length + ' topics';
-  shown.forEach(([name, c], i) => {
+  shown.forEach(([name, info], i) => {
     const div = document.createElement('div');
     div.className = 'drawer';
     div.innerHTML = `<div class="num">${String(i + 1).padStart(2, '0')}</div><div class="name">${name}</div>
-      <div class="meta"><span class="live-dot"></span>${c} ${c === 1 ? 'shiur' : 'shiurim'}</div>`;
+      <div class="meta"><span class="live-dot"></span>${info.count} ${info.count === 1 ? 'shiur' : 'shiurim'}</div>`;
     div.addEventListener('click', () => filterByTopic(name));
     drawersEl.appendChild(div);
   });
@@ -1111,14 +1146,14 @@ function matchShiurim(q){
   );
 }
 
-function runFullSearch(){
+function runFullSearch(scrollToResults){
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   const q = searchEl.value.trim().toLowerCase();
   backBtn.style.display = 'none';
   if (!q){ resultsTitle.textContent = 'All shiurim'; renderCards(shiurim); return; }
   resultsTitle.textContent = `Results for "${searchEl.value}"`;
   renderCards(matchShiurim(q));
-  document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
+  if (scrollToResults) document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 // ---- Live typeahead dropdown ----
@@ -1157,7 +1192,8 @@ function setActive(i){
 function updateDropdown(){
   const q = searchEl.value.trim().toLowerCase();
   if (!q){ closeDropdown(); return; }
-  const matches = matchShiurim(q).sort((a,b) => matchRank(a,q) - matchRank(b,q)).slice(0,6);
+  const allMatches = matchShiurim(q).sort((a,b) => matchRank(a,q) - matchRank(b,q));
+  const matches = allMatches.slice(0, 18);
 
   if (!matches.length){
     searchDropdown.innerHTML = `<div class="sd-empty">No shiurim match "${escapeHtml(searchEl.value)}" yet.</div>`;
@@ -1174,26 +1210,27 @@ function updateDropdown(){
         <div class="sd-hint">by ${escapeHtml(s.speaker||'Unknown')} &middot; ${escapeHtml(s.topic||'')}${s.subtopic ? ' / ' + escapeHtml(s.subtopic) : ''}</div>
       </div>
     </a>
-  `).join('') + `<div class="sd-footer" id="sd-see-all">See all results for "${escapeHtml(searchEl.value)}" &rarr;</div>`;
+  `).join('') + (allMatches.length > matches.length ? `<div class="sd-footer" id="sd-see-all">+ ${allMatches.length - matches.length} more — see all results for "${escapeHtml(searchEl.value)}" &rarr;</div>` : '');
 
   searchDropdown.classList.add('open');
   sdItems = [...searchDropdown.querySelectorAll('.sd-item')];
   sdActiveIndex = -1;
-  document.getElementById('sd-see-all').addEventListener('click', () => {
+  const seeAll = document.getElementById('sd-see-all');
+  if (seeAll) seeAll.addEventListener('click', () => {
     closeDropdown();
-    runFullSearch();
+    runFullSearch(true);
   });
 }
 
 searchEl.addEventListener('input', () => {
   updateDropdown();
-  runFullSearch();
+  runFullSearch(false);
 });
 searchEl.addEventListener('keydown', (e) => {
   if (!searchDropdown.classList.contains('open')) return;
   if (e.key === 'ArrowDown'){ e.preventDefault(); setActive(Math.min(sdActiveIndex+1, sdItems.length-1)); }
   else if (e.key === 'ArrowUp'){ e.preventDefault(); setActive(Math.max(sdActiveIndex-1, 0)); }
-  else if (e.key === 'Enter'){ if (sdActiveIndex >= 0 && sdItems[sdActiveIndex]) sdItems[sdActiveIndex].click(); else closeDropdown(); }
+  else if (e.key === 'Enter'){ if (sdActiveIndex >= 0 && sdItems[sdActiveIndex]) sdItems[sdActiveIndex].click(); else { closeDropdown(); runFullSearch(true); } }
   else if (e.key === 'Escape'){ closeDropdown(); searchEl.blur(); }
 });
 document.addEventListener('click', (e) => {
@@ -1257,25 +1294,9 @@ function isNearHoliday(h){
 
 function renderSuggestions(){
   const wrap = document.getElementById('suggest-wrap');
-  let html = '';
+  let html = '<div class="suggest-card" id="now-playing-suggest" style="display:none;"><div class="stag">Related to what\'s playing</div><div class="stitle" id="np-suggest-title"></div><div id="np-suggest-body"></div></div>';
 
-  // 1) Because you're following — based on the most recently indexed shiur's topic/subtopic
-  const sorted = [...shiurim].filter(s=>s.date).sort((a,b) => b.date.localeCompare(a.date));
-  if (sorted.length){
-    const anchor = sorted[0];
-    const related = shiurim.filter(s => s !== anchor && (s.subtopic === anchor.subtopic || s.topic === anchor.topic));
-    if (related.length){
-      const showKey = anchor.subtopic || anchor.topic;
-      html += `<div class="suggest-card" data-suggest="topic:${showKey}">
-        <div class="stag">Because you're following</div>
-        <div class="stitle">${showKey}</div>
-        ${related.slice(0,3).map(s => `<div class="suggest-line"><span>${s.title}</span><span class="sdate">${s.date||''}</span></div>`).join('')}
-        ${related.length > 3 ? `<div class="suggest-more">+ ${related.length - 3} more &rarr;</div>` : ''}
-      </div>`;
-    }
-  }
-
-  // 2) Upcoming Yom Tov — related content from previous years
+  // Upcoming Yom Tov — related content from previous years
   let anyHoliday = false;
   let holidayHtml = '';
   HOLIDAYS.forEach(h => {
@@ -1303,7 +1324,7 @@ function renderSuggestions(){
   }
 
   wrap.innerHTML = html;
-  wrap.querySelectorAll('.suggest-card').forEach(card => {
+  wrap.querySelectorAll('.suggest-card[data-suggest]').forEach(card => {
     card.addEventListener('click', () => {
       const [kind, val] = card.dataset.suggest.split(':');
       backBtn.style.display = 'inline-block';
