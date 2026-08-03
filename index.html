@@ -354,6 +354,9 @@
   #mini-player .mp-info{min-width:0; flex-shrink:1; max-width:220px;}
   #mini-player .mp-title{font-family:'Inter', sans-serif; font-weight:600; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   #mini-player .mp-sub{font-family:'Inter', sans-serif; font-size:10.5px; color:var(--text-faint); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  #mini-player .mp-upnext{font-family:'Inter', sans-serif; font-size:10.5px; color:var(--text-faint); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  #mini-player .mp-upnext b{color:var(--text); font-weight:500;}
+  #mini-player .mp-mode-toggle{background:none; border:none; color:var(--accent); font-family:'Inter', sans-serif; font-size:10.5px; cursor:pointer; padding:0; margin-left:6px; text-decoration:underline; flex-shrink:0;}
   #mini-player .mp-progress-wrap{display:flex; align-items:center; gap:8px; flex:2; min-width:140px;}
   #mini-player .mp-time{font-family:'Inter', sans-serif; font-size:10.5px; color:var(--text-faint); flex-shrink:0; width:34px; text-align:center;}
   #mini-player .mp-seek{
@@ -432,7 +435,7 @@
     <div class="section-head">
       <div>
         <h2>Browse by topic</h2>
-        <p class="tag">Main Shiurim Library — Rebbe, R' Yitzchok Berkovits</p>
+        <p class="tag">Main Shiurim Library</p>
       </div>
       <span class="count" id="topic-count"></span>
     </div>
@@ -470,6 +473,7 @@
   <div class="mp-info">
     <div class="mp-title" id="mp-title">Nothing playing</div>
     <div class="mp-sub" id="mp-sub"></div>
+    <div class="mp-upnext" id="mp-upnext"></div>
   </div>
   <div class="mp-progress-wrap">
     <span class="mp-time" id="mp-current">0:00</span>
@@ -827,7 +831,46 @@ mpPrev.addEventListener('click', () => playAt(playIndex - 1));
 mpNext.addEventListener('click', () => playAt(playIndex + 1));
 mpAudio.addEventListener('play', () => { mpToggle.innerHTML = '&#10074;&#10074;'; });
 mpAudio.addEventListener('pause', () => { mpToggle.innerHTML = '&#9654;'; });
-mpAudio.addEventListener('ended', () => playAt(playIndex + 1));
+let upNextMode = 'sequential'; // or 'related'
+
+function computeUpNext(){
+  if (playIndex < 0 || !playQueue[playIndex]) return null;
+  if (upNextMode === 'related'){
+    const current = playQueue[playIndex];
+    const related = shiurim.filter(s => s.url !== current.url && (s.subtopic === current.subtopic || s.topic === current.topic));
+    if (related.length) return related[0];
+    return null;
+  }
+  return playQueue[playIndex + 1] || null;
+}
+
+function renderUpNext(){
+  const el = document.getElementById('mp-upnext');
+  if (!el) return;
+  const next = computeUpNext();
+  const otherMode = upNextMode === 'related' ? 'sequential' : 'related';
+  const otherLabel = upNextMode === 'related' ? 'next in order' : 'related instead';
+  if (!next){
+    el.innerHTML = playQueue.length > 1 ? '' : '';
+    return;
+  }
+  el.innerHTML = `Up next: <b>${escapeHtml(next.title)}</b><button class="mp-mode-toggle" id="mp-mode-toggle">${otherLabel}</button>`;
+  const btn = document.getElementById('mp-mode-toggle');
+  if (btn) btn.addEventListener('click', () => { upNextMode = otherMode; renderUpNext(); });
+}
+
+mpAudio.addEventListener('ended', () => {
+  const next = computeUpNext();
+  if (!next){ closeMiniPlayer(); return; }
+  if (upNextMode === 'related'){
+    const current = playQueue[playIndex];
+    const related = shiurim.filter(s => s.url !== current.url && (s.subtopic === current.subtopic || s.topic === current.topic));
+    playQueue = related;
+    playAt(0);
+  } else {
+    playAt(playIndex + 1);
+  }
+});
 
 function fmtTime(sec){
   if (!isFinite(sec) || sec < 0) return '0:00';
@@ -891,6 +934,7 @@ function playAt(index){
   mpSeek.value = 0; mpCurrent.textContent = '0:00'; mpDuration.textContent = '0:00';
   setPlayingCardUI();
   renderNowPlayingSuggestion();
+  renderUpNext();
 
   // Already prefetched this exact track (typically because the previous one
   // just ended) — play it immediately with no fetch delay.
