@@ -441,7 +441,7 @@
 
   <section id="results-section">
     <div class="section-head">
-      <h2 id="results-title">All indexed shiurim</h2>
+      <h2 id="results-title">All shiurim</h2>
       <span class="count" id="results-count"></span>
       <button class="play-all-btn" id="play-all-btn">&#9654; Play all</button>
     </div>
@@ -459,7 +459,7 @@
   </section>
 
   <footer>
-    <p>Data pulled from Google Drive · <a href="https://drive.google.com/drive/folders/1Ak11ASHdS-5Whzt7Rl7mVpzMOPOtOb9a" target="_blank">source folder</a>. Click play to listen on the site (you'll be asked to sign in with a Google account that has Drive access), or use "open" to go straight to Drive. The library is indexed in stages; more rabbis and topics are added as they're pulled in.</p>
+    <p>Data pulled from Google Drive · <a href="https://drive.google.com/drive/folders/1Ak11ASHdS-5Whzt7Rl7mVpzMOPOtOb9a" target="_blank">source folder</a>. Click play to listen on the site (you'll be asked to sign in with a Google account that has Drive access), or use "open" to go straight to Drive. More rabbis and topics are added as they're pulled in from Drive.</p>
   </footer>
 </div>
 
@@ -477,11 +477,11 @@
     <span class="mp-time" id="mp-duration">0:00</span>
   </div>
   <select class="mp-speed" id="mp-speed" title="Playback speed">
-    <option value="1">1&times;</option>
+    <option value="1" selected>1&times;</option>
     <option value="1.25">1.25&times;</option>
     <option value="1.5">1.5&times;</option>
     <option value="1.75">1.75&times;</option>
-    <option value="2" selected>2&times;</option>
+    <option value="2">2&times;</option>
   </select>
   <audio id="mp-audio" style="display:none;"></audio>
   <button class="mp-close" id="mp-close" title="Close player">&times;</button>
@@ -612,7 +612,8 @@ function buildCarouselIndex(){
     byTopic.get(tp).push(s);
   });
   carouselByDate = byDate;
-  carouselDates = [...byDate.keys()].sort((a, b) => b.localeCompare(a));
+  const todayISO = isoDate(new Date());
+  carouselDates = [...byDate.keys()].filter(dISO => dISO <= todayISO).sort((a, b) => b.localeCompare(a));
 }
 
 function dayCardHTML(dISO, todayISO, yestISO){
@@ -682,7 +683,7 @@ function renderCarousel(){
   el.innerHTML = '';
   carouselRendered = 0;
   if (!carouselDates.length){
-    el.innerHTML = `<div class="day-empty">No shiurim indexed yet.</div>`;
+    el.innerHTML = `<div class="day-empty">No shiurim yet.</div>`;
     return;
   }
   appendCarouselBatch();
@@ -752,10 +753,33 @@ let playQueue = [];
 let playIndex = -1;
 let currentBlobUrl = null;
 let pendingPlayAfterSignin = null;
+let prefetchIndex = -1;
+let prefetchBlobUrl = null;
 
 function driveFileId(url){
   const m = (url || '').match(/\/d\/([^/]+)/);
   return m ? m[1] : null;
+}
+
+function fetchShiurBlob(s){
+  const fileId = driveFileId(s.url);
+  if (!fileId || !accessToken) return Promise.resolve(null);
+  return fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+    headers: { Authorization: 'Bearer ' + accessToken }
+  }).then(r => r.ok ? r.blob() : null).catch(() => null);
+}
+
+// Quietly downloads the next track in the queue while the current one is
+// still playing, so when this one ends there's no fetch-wait gap.
+function prefetchNext(index){
+  if (index < 0 || index >= playQueue.length || prefetchIndex === index) return;
+  prefetchIndex = index;
+  fetchShiurBlob(playQueue[index]).then(blob => {
+    if (blob && prefetchIndex === index){
+      if (prefetchBlobUrl) URL.revokeObjectURL(prefetchBlobUrl);
+      prefetchBlobUrl = URL.createObjectURL(blob);
+    }
+  });
 }
 
 function ensureTokenClient(){
@@ -790,6 +814,8 @@ function closeMiniPlayer(){
   mpAudio.pause();
   mpAudio.src = '';
   playQueue = []; playIndex = -1;
+  if (prefetchBlobUrl) URL.revokeObjectURL(prefetchBlobUrl);
+  prefetchBlobUrl = null; prefetchIndex = -1;
   document.querySelectorAll('.card-play.playing').forEach(b => b.classList.remove('playing'));
   document.querySelectorAll('.card.now-playing').forEach(c => c.classList.remove('now-playing'));
 }
@@ -839,6 +865,19 @@ function playAt(index){
   mpSeek.value = 0; mpCurrent.textContent = '0:00'; mpDuration.textContent = '0:00';
   setPlayingCardUI();
 
+  // Already prefetched this exact track (typically because the previous one
+  // just ended) — play it immediately with no fetch delay.
+  if (prefetchIndex === index && prefetchBlobUrl){
+    if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+    currentBlobUrl = prefetchBlobUrl;
+    prefetchBlobUrl = null; prefetchIndex = -1;
+    mpAudio.src = currentBlobUrl;
+    mpAudio.playbackRate = parseFloat(mpSpeed.value);
+    mpAudio.play().catch(() => {});
+    prefetchNext(index + 1);
+    return;
+  }
+
   fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
     headers: { Authorization: 'Bearer ' + accessToken }
   }).then(r => {
@@ -857,6 +896,7 @@ function playAt(index){
     mpAudio.src = currentBlobUrl;
     mpAudio.playbackRate = parseFloat(mpSpeed.value);
     mpAudio.play().catch(() => {});
+    prefetchNext(index + 1);
   }).catch(err => {
     console.warn('Could not play', s.title, err);
     playAt(index + 1);
@@ -894,7 +934,7 @@ function renderRabbis(){
       ${avatarHTML(r.name)}
       <div>
         <div class="name">${r.name}</div>
-        <div class="meta"><span class="live-dot"></span>${r.count} ${r.count === 1 ? 'shiur' : 'shiurim'} indexed</div>
+        <div class="meta"><span class="live-dot"></span>${r.count} ${r.count === 1 ? 'shiur' : 'shiurim'}</div>
       </div>
     </div>
   `).join('');
@@ -906,8 +946,11 @@ function renderRabbis(){
   });
   const toggle = document.getElementById('rabbis-toggle');
   if (toggle) toggle.addEventListener('click', () => { rabbisExpanded = !rabbisExpanded; renderRabbis(); });
-  document.getElementById('rabbi-count').textContent = all.length + ' rabbis indexed';
+  document.getElementById('rabbi-count').textContent = all.length + ' rabbis';
 }
+
+const TOPIC_SHOW_COUNT = 12;
+let topicsExpanded = false;
 
 function renderDrawers(){
   const counts = new Map();
@@ -916,28 +959,41 @@ function renderDrawers(){
     counts.set(name, (counts.get(name) || 0) + 1);
   });
   const allTopics = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+  const shown = topicsExpanded ? allTopics : allTopics.slice(0, TOPIC_SHOW_COUNT);
   drawersEl.innerHTML = '';
-  document.getElementById('topic-count').textContent = allTopics.length + ' topics indexed';
-  allTopics.forEach(([name, c], i) => {
+  document.getElementById('topic-count').textContent = allTopics.length + ' topics';
+  shown.forEach(([name, c], i) => {
     const div = document.createElement('div');
     div.className = 'drawer';
     div.innerHTML = `<div class="num">${String(i + 1).padStart(2, '0')}</div><div class="name">${name}</div>
-      <div class="meta"><span class="live-dot"></span>${c} ${c === 1 ? 'shiur' : 'shiurim'} indexed</div>`;
+      <div class="meta"><span class="live-dot"></span>${c} ${c === 1 ? 'shiur' : 'shiurim'}</div>`;
     div.addEventListener('click', () => filterByTopic(name));
     drawersEl.appendChild(div);
   });
+  if (allTopics.length > TOPIC_SHOW_COUNT){
+    const btn = document.createElement('button');
+    btn.className = 'show-more-btn';
+    btn.textContent = topicsExpanded ? 'Show fewer' : `Show all ${allTopics.length} topics`;
+    btn.addEventListener('click', () => { topicsExpanded = !topicsExpanded; renderDrawers(); });
+    drawersEl.appendChild(btn);
+  }
 }
 
 function renderChips(){
+  const todayISO = isoDate(new Date());
+  const mostRecent = new Map(); // subtopic -> most recent valid (not-in-the-future) date
   const counts = new Map();
   shiurim.forEach(s => {
     if (!s.subtopic) return;
     counts.set(s.subtopic, (counts.get(s.subtopic) || 0) + 1);
+    if (s.date && s.date <= todayISO){
+      const cur = mostRecent.get(s.subtopic) || '';
+      if (s.date > cur) mostRecent.set(s.subtopic, s.date);
+    }
   });
-  const topSubtopics = [...counts.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 14)
-    .map(([name]) => name);
+  const topSubtopics = [...counts.keys()]
+    .sort((a, b) => (mostRecent.get(b) || '').localeCompare(mostRecent.get(a) || ''))
+    .slice(0, 14);
 
   chipsEl.innerHTML = '';
   topSubtopics.forEach(st => {
@@ -950,7 +1006,7 @@ function renderChips(){
       document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       backBtn.style.display = 'none';
       if (!isActive){ b.classList.add('active'); renderCards(shiurim.filter(s => s.subtopic === st)); resultsTitle.textContent = st; }
-      else { renderCards(shiurim); resultsTitle.textContent = 'All indexed shiurim'; }
+      else { renderCards(shiurim); resultsTitle.textContent = 'All shiurim'; }
       document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
     });
     chipsEl.appendChild(b);
@@ -971,14 +1027,16 @@ function filterBySpeaker(name){
 }
 backBtn.addEventListener('click', () => {
   backBtn.style.display = 'none';
-  resultsTitle.textContent = 'All indexed shiurim';
+  resultsTitle.textContent = 'All shiurim';
   renderCards(shiurim);
 });
 
 function sortList(list){
+  const todayISO = isoDate(new Date());
+  const safeDate = (d) => (d && d <= todayISO) ? d : (d ? todayISO : ''); // a bad future-typo date sorts as "today", not ahead of everything
   const sorted = [...list];
-  if (currentSort === 'newest') sorted.sort((a,b) => (b.date||'').localeCompare(a.date||''));
-  else if (currentSort === 'oldest') sorted.sort((a,b) => (a.date||'').localeCompare(b.date||''));
+  if (currentSort === 'newest') sorted.sort((a,b) => safeDate(b.date).localeCompare(safeDate(a.date)));
+  else if (currentSort === 'oldest') sorted.sort((a,b) => safeDate(a.date).localeCompare(safeDate(b.date)));
   else if (currentSort === 'title') sorted.sort((a,b) => (a.title||'').localeCompare(b.title||''));
   else if (currentSort === 'speaker') sorted.sort((a,b) => (a.speaker||'').localeCompare(b.speaker||''));
   return sorted;
@@ -1025,7 +1083,7 @@ function renderCards(list){
   renderedCount = 0;
   cardsEl.innerHTML = '';
   if (currentList.length === 0){
-    cardsEl.innerHTML = `<div class="empty">Nothing indexed here yet.</div>`;
+    cardsEl.innerHTML = `<div class="empty">Nothing here yet.</div>`;
     loadMoreBtn.style.display = 'none';
     return;
   }
@@ -1057,7 +1115,7 @@ function runFullSearch(){
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   const q = searchEl.value.trim().toLowerCase();
   backBtn.style.display = 'none';
-  if (!q){ resultsTitle.textContent = 'All indexed shiurim'; renderCards(shiurim); return; }
+  if (!q){ resultsTitle.textContent = 'All shiurim'; renderCards(shiurim); return; }
   resultsTitle.textContent = `Results for "${searchEl.value}"`;
   renderCards(matchShiurim(q));
   document.getElementById('results-section').scrollIntoView({behavior:'smooth', block:'start'});
@@ -1230,7 +1288,7 @@ function renderSuggestions(){
       <div class="stag">${h.name} is approaching</div>
       <div class="stitle">${civilStr} &middot; ${near.hebrewDate}</div>
       ${matches.length ? matches.slice(0,3).map(s => `<div class="suggest-line"><span>${s.title}</span><span class="sdate">${s.date||''}</span></div>`).join('')
-        : `<div class="suggest-line"><span>Nothing indexed for ${h.name} yet.</span></div>`}
+        : `<div class="suggest-line"><span>No shiurim for ${h.name} yet.</span></div>`}
       ${matches.length > 3 ? `<div class="suggest-more">+ ${matches.length - 3} more &rarr;</div>` : ''}
     </div>`;
   });
