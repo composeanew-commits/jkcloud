@@ -694,6 +694,16 @@ function renderCarousel(){
     return;
   }
   appendCarouselBatch();
+  // Center the first (most recent) card immediately, instead of leaving
+  // the carousel at scrollLeft:0 -- which just shows the coverflow's
+  // side padding as empty space until the user manually scrolls.
+  requestAnimationFrame(() => {
+    const firstCard = el.querySelector('.day-card');
+    if (firstCard){
+      el.scrollLeft = firstCard.offsetLeft - (el.clientWidth / 2) + (firstCard.offsetWidth / 2);
+    }
+    update3DCarousel();
+  });
 }
 document.getElementById('carousel-prev').addEventListener('click', () => {
   document.getElementById('carousel').scrollBy({left: -320, behavior:'smooth'});
