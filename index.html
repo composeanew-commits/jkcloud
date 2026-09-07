@@ -406,6 +406,7 @@
       <div class="today-topline">
         <h2>Recent shiurim</h2>
         <div class="day-nav">
+          <button class="day-btn" id="carousel-recent" title="Jump to most recent">&#8634;</button>
           <button class="day-btn" id="carousel-prev" title="Scroll back">&larr;</button>
           <button class="day-btn" id="carousel-next" title="Scroll forward">&rarr;</button>
         </div>
@@ -697,14 +698,17 @@ function renderCarousel(){
   // Center the first (most recent) card immediately, instead of leaving
   // the carousel at scrollLeft:0 -- which just shows the coverflow's
   // side padding as empty space until the user manually scrolls.
-  requestAnimationFrame(() => {
-    const firstCard = el.querySelector('.day-card');
-    if (firstCard){
-      el.scrollLeft = firstCard.offsetLeft - (el.clientWidth / 2) + (firstCard.offsetWidth / 2);
-    }
-    update3DCarousel();
-  });
+  requestAnimationFrame(() => centerFirstCard(false));
 }
+function centerFirstCard(smooth){
+  const el = document.getElementById('carousel');
+  const firstCard = el.querySelector('.day-card');
+  if (!firstCard) return;
+  const left = firstCard.offsetLeft - (el.clientWidth / 2) + (firstCard.offsetWidth / 2);
+  el.scrollTo({left, behavior: smooth ? 'smooth' : 'auto'});
+  if (!smooth) update3DCarousel();
+}
+document.getElementById('carousel-recent').addEventListener('click', () => centerFirstCard(true));
 document.getElementById('carousel-prev').addEventListener('click', () => {
   document.getElementById('carousel').scrollBy({left: -320, behavior:'smooth'});
 });
