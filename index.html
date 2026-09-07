@@ -149,19 +149,32 @@
   }
   .day-btn:hover{border-color:var(--accent); color:var(--accent);}
 
-  .carousel-3d-wrap{perspective:1400px; padding:20px 0 26px;}
+  .carousel-3d-wrap{perspective:1400px; padding:20px 0 26px; position:relative;}
   .carousel{
     display:flex; gap:0; overflow-x:auto; scroll-snap-type:x mandatory;
     padding:10px 40vw; margin:0 -24px; transform-style:preserve-3d;
     -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    scroll-behavior:smooth;
   }
   .carousel::-webkit-scrollbar{display:none;}
+  .carousel-arrow{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+    width:44px; height:44px; border-radius:50%; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); cursor:pointer;
+    font-size:22px; line-height:1; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 26px var(--shadow);
+    transition:border-color .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .carousel-arrow:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-50%) scale(1.08); box-shadow:0 12px 30px var(--shadow);}
+  .carousel-arrow:active{transform:translateY(-50%) scale(0.96);}
+  .carousel-arrow-left{left:2px;}
+  .carousel-arrow-right{right:2px;}
   .day-card{
     scroll-snap-align:center; flex:0 0 auto; width:min(300px, 72vw); margin:0 10px;
     background:var(--surface); color:var(--text); border-radius:var(--radius-lg); padding:20px;
     position:relative; overflow:hidden; border:1px solid var(--line);
-    transition:transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s ease, box-shadow .35s ease;
-    transform-origin:center center;
+    transition:transform .5s cubic-bezier(.22,.85,.32,1), opacity .5s cubic-bezier(.22,.85,.32,1), box-shadow .5s ease;
+    transform-origin:center center; will-change:transform, opacity;
   }
   .day-card.is-today{background:linear-gradient(155deg, var(--surface) 55%, var(--accent-dim) 150%); box-shadow:0 14px 34px var(--shadow);}
   .day-card::before{
@@ -407,12 +420,12 @@
         <h2>Recent shiurim</h2>
         <div class="day-nav">
           <button class="day-btn" id="carousel-recent" title="Jump to most recent">&#8634;</button>
-          <button class="day-btn" id="carousel-prev" title="Scroll back">&larr;</button>
-          <button class="day-btn" id="carousel-next" title="Scroll forward">&rarr;</button>
         </div>
       </div>
       <div class="carousel-3d-wrap">
+        <button class="carousel-arrow carousel-arrow-left" id="carousel-prev" title="Previous" aria-label="Previous">&#8249;</button>
         <div class="carousel" id="carousel"></div>
+        <button class="carousel-arrow carousel-arrow-right" id="carousel-next" title="Next" aria-label="Next">&#8250;</button>
       </div>
     </div>
 
@@ -709,11 +722,32 @@ function centerFirstCard(smooth){
   if (!smooth) update3DCarousel();
 }
 document.getElementById('carousel-recent').addEventListener('click', () => centerFirstCard(true));
+function scrollToCard(card, smooth){
+  const el = document.getElementById('carousel');
+  const left = card.offsetLeft - (el.clientWidth / 2) + (card.offsetWidth / 2);
+  el.scrollTo({left, behavior: smooth ? 'smooth' : 'auto'});
+}
+function getCenteredCard(){
+  const el = document.getElementById('carousel');
+  const rect = el.getBoundingClientRect();
+  const center = rect.left + rect.width / 2;
+  let closest = null, closestDist = Infinity;
+  el.querySelectorAll('.day-card').forEach(card => {
+    const cardRect = card.getBoundingClientRect();
+    const dist = Math.abs((cardRect.left + cardRect.width / 2) - center);
+    if (dist < closestDist){ closestDist = dist; closest = card; }
+  });
+  return closest;
+}
 document.getElementById('carousel-prev').addEventListener('click', () => {
-  document.getElementById('carousel').scrollBy({left: -320, behavior:'smooth'});
+  const current = getCenteredCard();
+  const prev = current && current.previousElementSibling;
+  if (prev) scrollToCard(prev, true);
 });
 document.getElementById('carousel-next').addEventListener('click', () => {
-  document.getElementById('carousel').scrollBy({left: 320, behavior:'smooth'});
+  const current = getCenteredCard();
+  const next = current && current.nextElementSibling;
+  if (next) scrollToCard(next, true);
 });
 document.getElementById('carousel').addEventListener('scroll', maybeExtendCarousel);
 
