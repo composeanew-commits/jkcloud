@@ -57,6 +57,14 @@
   ::selection{background:var(--accent-dim);}
   a{color:inherit;}
   *{transition:background-color .18s ease, border-color .18s ease, color .18s ease;}
+  a{-webkit-tap-highlight-color:transparent;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px;}
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{
+      animation-duration:0.001ms !important; animation-iteration-count:1 !important;
+      transition-duration:0.001ms !important; scroll-behavior:auto !important;
+    }
+  }
 
   .topbar{
     position:sticky; top:0; z-index:40;
@@ -132,6 +140,20 @@
     transition:border-color .15s ease, transform .15s ease;
   }
   .theme-toggle:hover{border-color:var(--accent); transform:translateY(-1px) rotate(15deg);}
+
+  /* ---- Back to top ---- */
+  #back-to-top{
+    position:fixed; right:22px; bottom:26px; z-index:70;
+    width:44px; height:44px; border-radius:50%; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-size:18px;
+    box-shadow:0 10px 26px var(--shadow);
+    opacity:0; pointer-events:none; transform:translateY(10px);
+    transition:opacity .25s ease, transform .25s ease, border-color .2s ease, bottom .2s ease;
+  }
+  #back-to-top.show{opacity:1; pointer-events:auto; transform:translateY(0);}
+  #back-to-top:hover{border-color:var(--accent); color:var(--accent);}
+  #back-to-top.above-player{bottom:96px;}
 
   /* TODAY carousel — 3D coverflow */
   .today-wrap{margin-top:32px;}
@@ -514,6 +536,7 @@
   </footer>
 </div>
 
+<button id="back-to-top" title="Back to top" aria-label="Back to top">&#8593;</button>
 <div id="mini-player">
   <button class="mp-btn" id="mp-prev" title="Previous">&#9664;&#9664;</button>
   <button class="mp-btn" id="mp-toggle" title="Play/Pause">&#9654;</button>
@@ -1368,9 +1391,11 @@ function updateDropdown(){
   });
 }
 
+let searchDebounceTimer = null;
 searchEl.addEventListener('input', () => {
   updateDropdown();
-  runFullSearch(false);
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(() => runFullSearch(false), 150);
 });
 searchEl.addEventListener('keydown', (e) => {
   if (!searchDropdown.classList.contains('open')) return;
@@ -1497,6 +1522,15 @@ applyTheme(localStorage.getItem('jk_theme') || 'dark');
 themeToggle.addEventListener('click', () => {
   applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
 });
+
+const backToTopBtn = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+  backToTopBtn.classList.toggle('show', window.scrollY > 600);
+}, {passive:true});
+backToTopBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+new MutationObserver(() => {
+  backToTopBtn.classList.toggle('above-player', document.getElementById('mini-player').classList.contains('open'));
+}).observe(document.getElementById('mini-player'), {attributes:true, attributeFilter:['class']});
 
 function init(){
   const steps = [() => renderCards(shiurim), renderChips, renderRabbis, renderDrawers, renderSuggestions, renderCarousel, schedule3DUpdate];
